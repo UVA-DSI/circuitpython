@@ -42,7 +42,7 @@
 
 #if defined(SAMD21)
 #include "hri/hri_pm_d21.h"
-#if defined(SAML21)
+#elif defined(SAML21)
 #include "hri/hri_rstc_l21.h"
 #elif defined(SAME54)
 #include "hri/hri_rstc_e54.h"
