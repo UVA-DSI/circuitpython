@@ -227,7 +227,7 @@ endif
 ifeq ($(CHIP_FAMILY), samd21)
 LDFLAGS += -mthumb -mcpu=cortex-m0plus -Lasf/thirdparty/CMSIS/Lib/GCC/
 BOOTLOADER_SIZE := 0x2000
-ifeq ($(CHIP_FAMILY), saml21)
+else ifeq ($(CHIP_FAMILY), saml21)
 LDFLAGS += -mthumb -mcpu=cortex-m0plus -Lasf/thirdparty/CMSIS/Lib/GCC/
 BOOTLOADER_SIZE := 0x2000
 else ifeq ($(CHIP_FAMILY), samd51)
@@ -272,7 +272,7 @@ SRC_ASF += \
 	hpl/core/hpl_core_m0plus_base.c \
 	hpl/sysctrl/hpl_sysctrl.c \
 
-ifeq ($(CHIP_FAMILY), saml21)
+else ifeq ($(CHIP_FAMILY), saml21)
 SRC_ASF += \
 	hpl/core/hpl_core_m0plus_base.c \
 	hpl/mclk/hpl_mclk.c \
