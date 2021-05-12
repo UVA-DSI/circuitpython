@@ -177,6 +177,17 @@ static void rtc_init(void) {
         RTC_MODE0_CTRL_MODE_COUNT32 |
         RTC_MODE0_CTRL_PRESCALER_DIV2;
     #endif
+    #ifdef SAML21
+    hri_mclk_set_APBAMASK_RTC_bit(MCLK);
+    RTC->MODE0.CTRLA.bit.SWRST = true;
+    while (RTC->MODE0.SYNCBUSY.bit.SWRST != 0) {
+    }
+
+    RTC->MODE0.CTRLA.reg = RTC_MODE0_CTRLA_ENABLE |
+        RTC_MODE0_CTRLA_MODE_COUNT32 |
+        RTC_MODE0_CTRLA_PRESCALER_DIV2 |
+        RTC_MODE0_CTRLA_COUNTSYNC;
+    #endif
     #ifdef SAM_D5X_E5X
     hri_mclk_set_APBAMASK_RTC_bit(MCLK);
     RTC->MODE0.CTRLA.bit.SWRST = true;
@@ -198,6 +209,10 @@ static void rtc_init(void) {
     // Bump up the rtc interrupt so nothing else interferes with timekeeping.
     NVIC_SetPriority(RTC_IRQn, 0);
     #ifdef SAMD21
+    NVIC_SetPriority(USB_IRQn, 1);
+    #endif
+
+    #ifdef SAML21
     NVIC_SetPriority(USB_IRQn, 1);
     #endif
 
@@ -233,6 +248,20 @@ safe_mode_t port_init(void) {
     // builds can leave it set over reset and wreak havok as a result.
     REG_MTB_MASTER = 0x00000000 + 6;
     #endif
+    #endif
+
+    #if defined(SAML21)
+    // Set brownout detection.
+    // Disable while changing level.
+    SUPC->BOD33.bit.ENABLE = 0;
+    SUPC->BOD33.bit.LEVEL = SAMD21_BOD33_LEVEL;
+    SUPC->BOD33.bit.ENABLE = 1;
+
+    #if 0
+    // Designate QSPI memory mapped region as not cachable.
+    #endif
+
+    samd_peripherals_enable_cache();
     #endif
 
     #if defined(SAM_D5X_E5X)
@@ -310,6 +339,11 @@ safe_mode_t port_init(void) {
 
     #ifdef SAMD21
     if (PM->RCAUSE.bit.BOD33 == 1 || PM->RCAUSE.bit.BOD12 == 1) {
+        return BROWNOUT;
+    }
+    #endif
+    #ifdef SAML21
+    if (RSTC->RCAUSE.bit.BOD33 == 1 || RSTC->RCAUSE.bit.BOD12 == 1) {
         return BROWNOUT;
     }
     #endif
@@ -423,6 +457,9 @@ uint32_t *port_heap_get_top(void) {
 #ifdef SAMD21
 uint32_t *safe_word = (uint32_t *)(HMCRAMC0_ADDR + HMCRAMC0_SIZE - 0x2000);
 #endif
+#ifdef SAML21
+uint32_t *safe_word = (uint32_t *)(HSRAM_ADDR + HSRAM_SIZE - 0x2000);
+#endif
 #ifdef SAM_D5X_E5X
 uint32_t *safe_word = (uint32_t *)(HSRAM_ADDR + HSRAM_SIZE - 0x2000);
 #endif
@@ -444,6 +481,10 @@ static volatile bool _ticks_enabled = false;
 
 static uint32_t _get_count(uint64_t *overflow_count) {
     #ifdef SAM_D5X_E5X
+    while ((RTC->MODE0.SYNCBUSY.reg & (RTC_MODE0_SYNCBUSY_COUNTSYNC | RTC_MODE0_SYNCBUSY_COUNT)) != 0) {
+    }
+    #endif
+    #ifdef SAML21
     while ((RTC->MODE0.SYNCBUSY.reg & (RTC_MODE0_SYNCBUSY_COUNTSYNC | RTC_MODE0_SYNCBUSY_COUNT)) != 0) {
     }
     #endif
@@ -506,6 +547,9 @@ void RTC_Handler(void) {
             }
         }
         #endif
+        #ifdef SAML21
+        RTC->MODE0.INTENCLR.reg = RTC_MODE0_INTENCLR_CMP0;
+        #endif
         #ifdef SAM_D5X_E5X
         RTC->MODE0.INTENCLR.reg = RTC_MODE0_INTENCLR_CMP0;
         #endif
@@ -528,6 +572,10 @@ void port_enable_tick(void) {
     // PER2 will generate an interrupt every 32 ticks of the source 32.768 clock.
     RTC->MODE0.INTENSET.reg = RTC_MODE0_INTENSET_PER2;
     #endif
+    #ifdef SAML21
+    // PER2 will generate an interrupt every 32 ticks of the source 32.768 clock.
+    RTC->MODE0.INTENSET.reg = RTC_MODE0_INTENSET_PER2;
+    #endif
     #ifdef SAMD21
     // TODO: Switch to using the PER *event* from the RTC to generate an interrupt via EVSYS.
     _ticks_enabled = true;
@@ -538,6 +586,9 @@ void port_enable_tick(void) {
 // Disable 1/1024 second tick.
 void port_disable_tick(void) {
     #ifdef SAM_D5X_E5X
+    RTC->MODE0.INTENCLR.reg = RTC_MODE0_INTENCLR_PER2;
+    #endif
+    #ifdef SAML21
     RTC->MODE0.INTENCLR.reg = RTC_MODE0_INTENCLR_PER2;
     #endif
     #ifdef SAMD21
