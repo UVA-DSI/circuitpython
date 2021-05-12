@@ -75,6 +75,9 @@ void supervisor_flash_init(void) {
     #ifdef SAMD21
     _pm_enable_bus_clock(PM_BUS_APBB, NVMCTRL);
     #endif
+    #ifdef SAML21
+    hri_mclk_set_AHBMASK_NVMCTRL_bit(MCLK);
+    #endif
     flash_init(&supervisor_flash_desc, NVMCTRL);
 }
 
