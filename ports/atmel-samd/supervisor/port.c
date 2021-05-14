@@ -254,7 +254,7 @@ safe_mode_t port_init(void) {
     // Set brownout detection.
     // Disable while changing level.
     SUPC->BOD33.bit.ENABLE = 0;
-    SUPC->BOD33.bit.LEVEL = SAMD21_BOD33_LEVEL;
+    SUPC->BOD33.bit.LEVEL = SAML21_BOD33_LEVEL;
     SUPC->BOD33.bit.ENABLE = 1;
 
     #if 0

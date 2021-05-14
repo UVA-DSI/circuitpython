@@ -166,6 +166,27 @@ STATIC float calculate_temperature(uint16_t raw_value) {
 }
 #endif // SAMD21
 
+#ifdef SAML21
+STATIC float calculate_temperature(uint16_t TP, uint16_t TC) {
+    uint32_t TLI = (*(uint32_t *)FUSES_ROOM_TEMP_VAL_INT_ADDR & FUSES_ROOM_TEMP_VAL_INT_Msk) >> FUSES_ROOM_TEMP_VAL_INT_Pos;
+    uint32_t TLD = (*(uint32_t *)FUSES_ROOM_TEMP_VAL_DEC_ADDR & FUSES_ROOM_TEMP_VAL_DEC_Msk) >> FUSES_ROOM_TEMP_VAL_DEC_Pos;
+    float TL = TLI + convert_dec_to_frac(TLD);
+
+    uint32_t THI = (*(uint32_t *)FUSES_HOT_TEMP_VAL_INT_ADDR & FUSES_HOT_TEMP_VAL_INT_Msk) >> FUSES_HOT_TEMP_VAL_INT_Pos;
+    uint32_t THD = (*(uint32_t *)FUSES_HOT_TEMP_VAL_DEC_ADDR & FUSES_HOT_TEMP_VAL_DEC_Msk) >> FUSES_HOT_TEMP_VAL_DEC_Pos;
+    float TH = THI + convert_dec_to_frac(THD);
+
+    uint16_t VPL = (*(uint32_t *)FUSES_ROOM_ADC_VAL_ADDR & FUSES_ROOM_ADC_VAL_Msk) >> FUSES_ROOM_ADC_VAL_Pos;
+    uint16_t VPH = (*(uint32_t *)FUSES_HOT_ADC_VAL_ADDR & FUSES_HOT_ADC_VAL_Msk) >> FUSES_HOT_ADC_VAL_Pos;
+
+    uint16_t VCL = (*(uint32_t *)FUSES_ROOM_ADC_VAL_ADDR & FUSES_ROOM_ADC_VAL_Msk) >> FUSES_ROOM_ADC_VAL_Pos;
+    uint16_t VCH = (*(uint32_t *)FUSES_HOT_ADC_VAL_ADDR & FUSES_HOT_ADC_VAL_Msk) >> FUSES_HOT_ADC_VAL_Pos;
+
+    // From SAMD51 datasheet: section 45.6.3.1 (page 1327).
+    return (TL * VPH * TC - VPL * TH * TC - TL * VCH * TP + TH * VCL * TP) / (VCL * TP - VCH * TP - VPL * TC + VPH * TC);
+}
+#endif // SAML21
+
 #ifdef SAM_D5X_E5X
 STATIC float calculate_temperature(uint16_t TP, uint16_t TC) {
     uint32_t TLI = (*(uint32_t *)FUSES_ROOM_TEMP_VAL_INT_ADDR & FUSES_ROOM_TEMP_VAL_INT_Msk) >> FUSES_ROOM_TEMP_VAL_INT_Pos;
@@ -233,6 +254,49 @@ float common_hal_mcu_processor_get_temperature(void) {
     adc_sync_deinit(&adc);
     return calculate_temperature(value);
     #endif // SAMD21
+
+    #ifdef SAML21
+    adc_sync_set_resolution(&adc, ADC_CTRLC_RESSEL_12BIT_Val);
+    // Using INTVCC0 as the reference voltage.
+    // INTVCC1 seems to read a little high.
+    // INTREF doesn't work: ADC hangs BUSY. It's supposed to work, but does not.
+    // The SAME54 example from Atmel START implicitly uses INTREF.
+    adc_sync_set_reference(&adc, ADC_REFCTRL_REFSEL_INTVCC0_Val);
+
+    hri_supc_set_VREF_ONDEMAND_bit(SUPC);
+    // Enable temperature sensor.
+    hri_supc_set_VREF_TSEN_bit(SUPC);
+    hri_supc_set_VREF_VREFOE_bit(SUPC);
+
+    // Channel arg is ignored.
+    adc_sync_enable_channel(&adc, IGNORED_CHANNEL);
+    adc_sync_set_inputs(&adc,
+        ADC_INPUTCTRL_MUXPOS_Pos,                   // pos_input
+        ADC_INPUTCTRL_MUXNEG_GND_Val,                    // neg_input
+        IGNORED_CHANNEL);                                // channel (ignored)
+
+    // Read both temperature sensors.
+    volatile uint16_t ptat;
+    volatile uint16_t ctat;
+
+    // Read twice for stability (necessary?).
+    adc_sync_read_channel(&adc, IGNORED_CHANNEL, ((uint8_t *)&ptat), 2);
+    adc_sync_read_channel(&adc, IGNORED_CHANNEL, ((uint8_t *)&ptat), 2);
+
+    adc_sync_set_inputs(&adc,
+        ADC_INPUTCTRL_MUXPOS_Pos,                   // pos_input
+        ADC_INPUTCTRL_MUXNEG_GND_Val,                    // neg_input
+        IGNORED_CHANNEL);                                // channel (ignored)
+
+    adc_sync_read_channel(&adc, IGNORED_CHANNEL, ((uint8_t *)&ctat), 2);
+    adc_sync_read_channel(&adc, IGNORED_CHANNEL, ((uint8_t *)&ctat), 2);
+
+    // Turn off temp sensor.
+    hri_supc_clear_VREF_TSEN_bit(SUPC);
+
+    adc_sync_deinit(&adc);
+    return calculate_temperature(ptat, ctat);
+    #endif // SAML51
 
     #ifdef SAM_D5X_E5X
     adc_sync_set_resolution(&adc, ADC_CTRLB_RESSEL_12BIT_Val);
@@ -304,7 +368,15 @@ float common_hal_mcu_processor_get_voltage(void) {
     mp_hal_delay_ms(1);
     #endif
 
+    #ifdef SAMD21
     adc_sync_set_resolution(&adc, ADC_CTRLB_RESSEL_12BIT_Val);
+    #endif
+    #ifdef SAML21
+    adc_sync_set_resolution(&adc, ADC_CTRLC_RESSEL_12BIT_Val);
+    #endif
+    #ifdef SAM_D5X_E5X
+    adc_sync_set_resolution(&adc, ADC_CTRLB_RESSEL_12BIT_Val);
+    #endif
     // Channel arg is ignored.
     adc_sync_set_inputs(&adc,
         ADC_INPUTCTRL_MUXPOS_SCALEDIOVCC_Val,                     // IOVCC/4 (nominal 3.3V/4)
@@ -336,6 +408,10 @@ uint32_t common_hal_mcu_processor_get_frequency(void) {
 
 void common_hal_mcu_processor_get_uid(uint8_t raw_id[]) {
     #ifdef SAMD21
+    uint32_t *id_addresses[4] = {(uint32_t *)0x0080A00C, (uint32_t *)0x0080A040,
+                                 (uint32_t *)0x0080A044, (uint32_t *)0x0080A048};
+    #endif
+    #ifdef SAML21
     uint32_t *id_addresses[4] = {(uint32_t *)0x0080A00C, (uint32_t *)0x0080A040,
                                  (uint32_t *)0x0080A044, (uint32_t *)0x0080A048};
     #endif
