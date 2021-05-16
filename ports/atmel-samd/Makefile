@@ -137,6 +137,9 @@ ifeq ($(DEBUG), 1)
   ifeq ($(CHIP_FAMILY), samd21)
     CFLAGS += -DENABLE_MICRO_TRACE_BUFFER
   endif
+  ifeq ($(CHIP_FAMILY), saml21)
+    CFLAGS += -DENABLE_MICRO_TRACE_BUFFER
+  endif
 else
   CFLAGS += -DNDEBUG
   # -finline-limit can shrink the image size.

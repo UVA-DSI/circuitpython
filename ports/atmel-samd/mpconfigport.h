@@ -63,8 +63,8 @@
 
 #ifdef SAML21
 
-// HMCRAMC0_SIZE is defined in the ASF4 include files for each SAML21 chip.
-#define RAM_SIZE                                    HMCRAMC0_SIZE
+// HSRAM_SIZE is defined in the ASF4 include files for each SAML21 chip.
+#define RAM_SIZE                                    HSRAM_SIZE
 #define BOOTLOADER_SIZE                             (8 * 1024)
 #define CIRCUITPY_MCU_FAMILY                        saml21
 #define MICROPY_PY_SYS_PLATFORM                     "Atmel SAML21"
@@ -147,7 +147,7 @@
 // Smallest unit of flash that can be erased.
 #define FLASH_ERASE_SIZE NVMCTRL_ROW_SIZE
 
-#endif // SAMD21
+#endif // SAML21
 
 #ifdef SAML21
 
