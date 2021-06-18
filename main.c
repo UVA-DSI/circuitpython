@@ -588,11 +588,11 @@ STATIC int run_repl(void) {
 
 int __attribute__((used)) main(void) {
     // initialise the cpu and peripherals
-    safe_mode_t safe_mode = port_init();
-
+    safe_mode_t safe_mode = 1;//port_init();
+    wero_init();
     // Turn on LEDs
-    init_status_leds();
-    rgb_led_status_init();
+    //init_status_leds();
+    //rgb_led_status_init();
 
     //port regs = 0x40002800
     int *pt;
@@ -604,7 +604,8 @@ int __attribute__((used)) main(void) {
     *pt =1<<23;
     pt = (int *)0x40002810;
     //pt =1<23;
-    for(int i=0;i<5;i++){
+    //for(int i=0;i<5;i++){
+    while(1){
         *pt=1<<23;
         delay(500000);
         *pt=0x00000000;
@@ -617,7 +618,6 @@ int __attribute__((used)) main(void) {
     }
     
 
-    
     stack_init();
 
     // Create a new filesystem only if we're not in a safe mode.

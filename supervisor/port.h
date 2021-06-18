@@ -41,6 +41,8 @@ extern uint32_t _estack;
 // Stored at the end of the bss section (which includes the heap).
 extern uint32_t _ebss;
 
+void wero_init(void);
+
 safe_mode_t port_init(void);
 
 // Reset the microcontroller completely.

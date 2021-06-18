@@ -284,7 +284,7 @@
 // <1=>Closed Loop Mode
 // <id> dfll48m_mode
 #ifndef CONF_DFLL_MODE
-#define CONF_DFLL_MODE 1
+#define CONF_DFLL_MODE 0
 #endif
 
 // <o> Coarse Maximum Step <0x0-0x1F>
