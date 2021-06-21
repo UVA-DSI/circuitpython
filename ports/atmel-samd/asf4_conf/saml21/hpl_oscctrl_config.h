@@ -86,8 +86,8 @@
 #ifndef CONF_XOSC_XTALEN
 #define CONF_XOSC_XTALEN 0
 #endif
-//</h>
-//</e>
+// </h>
+// </e>
 
 // <e> 16MHz Internal Oscillator Configuration
 // <i> Indicates whether configuration for OSC8M is enabled or not
@@ -183,8 +183,8 @@
 #ifndef CONF_OSC16M_TCAL
 #define CONF_OSC16M_16M_TCAL 0
 #endif
-//</h>
-//</e>
+// </h>
+// </e>
 
 // <e> DFLL Configuration
 // <i> Indicates whether configuration for DFLL is enabled or not
@@ -324,11 +324,11 @@
 #define CONF_DFLL_FINE (0x200)
 #endif
 
-//</e>
+// </e>
 
-//</h>
+// </h>
 
-//</e>
+// </e>
 
 // <e> DPLL Configuration
 // <i> Indicates whether configuration for DPLL is enabled or not
@@ -454,8 +454,8 @@
 #ifndef CONF_DPLL_PRESC
 #define CONF_DPLL_PRESC OSCCTRL_DPLLPRESC_PRESC_DIV1_Val
 #endif
-//</h>
-//</e>
+// </h>
+// </e>
 
 // <<< end of configuration section >>>
 

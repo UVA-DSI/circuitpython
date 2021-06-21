@@ -589,7 +589,7 @@ STATIC int run_repl(void) {
 int __attribute__((used)) main(void) {
     // initialise the cpu and peripherals
     safe_mode_t safe_mode = port_init();
-    
+
     // Turn on LEDs
     init_status_leds();
     rgb_led_status_init();
@@ -616,7 +616,7 @@ int __attribute__((used)) main(void) {
     if (safe_mode == NO_SAFE_MODE) {
         safe_mode = wait_for_safe_mode_reset();
     }
-    
+
 
     stack_init();
 

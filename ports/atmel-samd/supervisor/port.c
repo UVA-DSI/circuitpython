@@ -168,7 +168,7 @@ static void save_usb_clock_calibration(void) {
 
 
 static void rtc_init(void) {
-    
+
     #ifdef SAMD21
     _gclk_enable_channel(RTC_GCLK_ID, GCLK_CLKCTRL_GEN_GCLK2_Val);
     RTC->MODE0.CTRL.bit.SWRST = true;
@@ -263,7 +263,7 @@ safe_mode_t port_init(void) {
     SUPC->BOD33.bit.ENABLE = 0;
     SUPC->BOD33.bit.LEVEL = SAML21_BOD33_LEVEL;
     SUPC->BOD33.bit.ENABLE = 1;
-    
+
     #if 0
     // Designate QSPI memory mapped region as not cachable.
     #endif
@@ -325,7 +325,7 @@ safe_mode_t port_init(void) {
     #endif
 
     #ifdef SAML21
-    
+
     // Clock init ( follow hpl_init.c )
     hri_nvmctrl_set_CTRLB_RWS_bf(NVMCTRL, 0);
 
@@ -335,11 +335,11 @@ safe_mode_t port_init(void) {
     _oscctrl_init_sources();
     _mclk_init();
     #if _GCLK_INIT_1ST
-     _gclk_init_generators_by_fref(_GCLK_INIT_1ST);
+    _gclk_init_generators_by_fref(_GCLK_INIT_1ST);
     #endif
 
     _oscctrl_init_referenced_generators();
-	_gclk_init_generators_by_fref(0x0000001F);
+    _gclk_init_generators_by_fref(0x0000001F);
 
     #if (CONF_PORT_EVCTRL_PORT_0 | CONF_PORT_EVCTRL_PORT_1 | CONF_PORT_EVCTRL_PORT_2 | CONF_PORT_EVCTRL_PORT_3)
     hri_port_set_EVCTRL_reg(PORT, 0, CONF_PORTA_EVCTRL);
@@ -348,10 +348,10 @@ safe_mode_t port_init(void) {
 
     // Update SystemCoreClock since it is hard coded with asf4 and not correct
     // Init 1ms tick timer (samd SystemCoreClock may not correct)
-    //SystemCoreClock = 16000000;
-    //SysTick_Config(16000000 / 1000);
+    // SystemCoreClock = 16000000;
+    // SysTick_Config(16000000 / 1000);
 
-    //USB Stuff
+    // USB Stuff
     /* USB Clock init
     * The USB module requires a GCLK_USB of 48 MHz ~ 0.25% clock
     * for low speed and full speed operation. */
@@ -360,15 +360,15 @@ safe_mode_t port_init(void) {
     hri_mclk_set_APBBMASK_USB_bit(MCLK);
 
     // USB Pin Init
-     gpio_set_pin_direction(PIN_PA24, GPIO_DIRECTION_OUT);
-     gpio_set_pin_level(PIN_PA24, false);
-     gpio_set_pin_pull_mode(PIN_PA24, GPIO_PULL_OFF);
-     gpio_set_pin_direction(PIN_PA25, GPIO_DIRECTION_OUT);
-     gpio_set_pin_level(PIN_PA25, false);
-     gpio_set_pin_pull_mode(PIN_PA25, GPIO_PULL_OFF);
+    gpio_set_pin_direction(PIN_PA24, GPIO_DIRECTION_OUT);
+    gpio_set_pin_level(PIN_PA24, false);
+    gpio_set_pin_pull_mode(PIN_PA24, GPIO_PULL_OFF);
+    gpio_set_pin_direction(PIN_PA25, GPIO_DIRECTION_OUT);
+    gpio_set_pin_level(PIN_PA25, false);
+    gpio_set_pin_pull_mode(PIN_PA25, GPIO_PULL_OFF);
 
-     gpio_set_pin_function(PIN_PA24, PINMUX_PA24G_USB_DM);
-     gpio_set_pin_function(PIN_PA25, PINMUX_PA25G_USB_DP);
+    gpio_set_pin_function(PIN_PA24, PINMUX_PA24G_USB_DM);
+    gpio_set_pin_function(PIN_PA25, PINMUX_PA25G_USB_DP);
 
     #endif
 
@@ -379,10 +379,10 @@ safe_mode_t port_init(void) {
     if (strcmp((char *)CIRCUITPY_INTERNAL_CONFIG_START_ADDR, "CIRCUITPYTHON1") == 0) {
         fine = ((uint16_t *)CIRCUITPY_INTERNAL_CONFIG_START_ADDR)[8];
     }
-    //clock_init(BOARD_HAS_CRYSTAL, fine);
+    // clock_init(BOARD_HAS_CRYSTAL, fine);
     #else
     // Use a default fine value
-    //clock_init(BOARD_HAS_CRYSTAL, DEFAULT_DFLL48M_FINE_CALIBRATION);
+    // clock_init(BOARD_HAS_CRYSTAL, DEFAULT_DFLL48M_FINE_CALIBRATION);
     #endif
 
     rtc_init();
@@ -466,12 +466,12 @@ void reset_port(void) {
     // Output clocks for debugging.
     // not supported by SAMD51G; uncomment for SAMD51J or update for 51G
     // #ifdef SAM_D5X_E5X
-     //gpio_set_pin_function(PIN_PA10, GPIO_PIN_FUNCTION_M); // GCLK4, D3
-     //gpio_set_pin_function(PIN_PA11, GPIO_PIN_FUNCTION_M); // GCLK5, A4
-     //gpio_set_pin_function(PIN_PB14, GPIO_PIN_FUNCTION_M); // GCLK0, D5
-     //gpio_set_pin_function(PIN_PB15, GPIO_PIN_FUNCTION_M); // GCLK1, D6
+    // gpio_set_pin_function(PIN_PA10, GPIO_PIN_FUNCTION_M); // GCLK4, D3
+    // gpio_set_pin_function(PIN_PA11, GPIO_PIN_FUNCTION_M); // GCLK5, A4
+    // gpio_set_pin_function(PIN_PB14, GPIO_PIN_FUNCTION_M); // GCLK0, D5
+    // gpio_set_pin_function(PIN_PB15, GPIO_PIN_FUNCTION_M); // GCLK1, D6
     // #endif
-    
+
     // Output clocks for debugging.
     // not supported by SAMD21G; uncomment for SAML51J or update for 21G
     #ifdef SAML21
@@ -596,12 +596,12 @@ void RTC_Handler(void) {
         // Our RTC is 32 bits and we're clocking it at 16.384khz which is 16 (2 ** 4) subticks per
         // tick.
         overflowed_ticks += (1L << (32 - 4));
-    #ifdef SAM_D5X_E5X
+        #ifdef SAM_D5X_E5X
     } else if (intflag & RTC_MODE0_INTFLAG_PER2) {
         RTC->MODE0.INTFLAG.reg = RTC_MODE0_INTFLAG_PER2;
         // Do things common to all ports when the tick occurs
         supervisor_tick();
-    #endif
+        #endif
     } else if (intflag & RTC_MODE0_INTFLAG_CMP0) {
         // Clear the interrupt because we may have hit a sleep and _ticks_enabled
         RTC->MODE0.INTFLAG.reg = RTC_MODE0_INTFLAG_CMP0;
