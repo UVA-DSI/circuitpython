@@ -33,10 +33,6 @@
 [submodule "tools/python-semver"]
 	path = tools/python-semver
 	url = https://github.com/k-bx/python-semver.git
-[submodule "atmel-samd/asf4"]
-	path = ports/atmel-samd/asf4
-	url = https://github.com/UVA-DSI/asf4.git
-	branch = circuitpython
 [submodule "tools/usb_descriptor"]
 	path = tools/usb_descriptor
 	url = https://github.com/adafruit/usb_descriptor.git
@@ -64,9 +60,6 @@
 [submodule "frozen/Adafruit_CircuitPython_DotStar"]
 	path = frozen/Adafruit_CircuitPython_DotStar
 	url = https://github.com/adafruit/Adafruit_CircuitPython_DotStar.git
-[submodule "ports/atmel-samd/peripherals"]
-	path = ports/atmel-samd/peripherals
-	url = https://github.com/UVA-DSI/samd-peripherals
 [submodule "frozen/Adafruit_CircuitPython_Crickit"]
 	path = frozen/Adafruit_CircuitPython_Crickit
 	url = https://github.com/adafruit/Adafruit_CircuitPython_Crickit
@@ -184,3 +177,5 @@
 [submodule "frozen/Adafruit_CircuitPython_MIDI"]
 	path = frozen/Adafruit_CircuitPython_MIDI
 	url = https://github.com/adafruit/Adafruit_CircuitPython_MIDI
+[submodule "ports/atmel-samd/peripherals"]
+	url = https://github.com/UVA-DSI/samd-peripherals
