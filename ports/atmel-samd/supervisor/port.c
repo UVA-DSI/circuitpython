@@ -168,7 +168,7 @@ static void save_usb_clock_calibration(void) {
 
 
 static void rtc_init(void) {
-    /*
+    
     #ifdef SAMD21
     _gclk_enable_channel(RTC_GCLK_ID, GCLK_CLKCTRL_GEN_GCLK2_Val);
     RTC->MODE0.CTRL.bit.SWRST = true;
@@ -229,67 +229,13 @@ static void rtc_init(void) {
     #if CIRCUITPY_RTC
     rtc_reset();
     #endif
-*/
+
 }
 
 /* Referenced GCLKs (out of 0~4), should be initialized firstly */
 #define _GCLK_INIT_1ST 0x00000000
 /* Not referenced GCLKs, initialized last */
 #define _GCLK_INIT_LAST 0x0000001F
-void wero_init(void)
-{
-  // Clock init ( follow hpl_init.c )
-  hri_nvmctrl_set_CTRLB_RWS_bf(NVMCTRL, 0);
-
-  _set_performance_level(2);
-
-  _osc32kctrl_init_sources();
-  _oscctrl_init_sources();
-  _mclk_init();
-#if _GCLK_INIT_1ST
-  _gclk_init_generators_by_fref(_GCLK_INIT_1ST);
-#endif
-  _oscctrl_init_referenced_generators();
-  _gclk_init_generators_by_fref(_GCLK_INIT_LAST);
-
-#if (CONF_PORT_EVCTRL_PORT_0 | CONF_PORT_EVCTRL_PORT_1 | CONF_PORT_EVCTRL_PORT_2 | CONF_PORT_EVCTRL_PORT_3)
-  hri_port_set_EVCTRL_reg(PORT, 0, CONF_PORTA_EVCTRL);
-  hri_port_set_EVCTRL_reg(PORT, 1, CONF_PORTB_EVCTRL);
-#endif
-
-  // Update SystemCoreClock since it is hard coded with asf4 and not correct
-  // Init 1ms tick timer (samd SystemCoreClock may not correct)
-  SystemCoreClock = CONF_CPU_FREQUENCY;
-  SysTick_Config(CONF_CPU_FREQUENCY / 1000);
-
-
-  /* USB Clock init
-   * The USB module requires a GCLK_USB of 48 MHz ~ 0.25% clock
-   * for low speed and full speed operation. */
-  hri_gclk_write_PCHCTRL_reg(GCLK, USB_GCLK_ID, GCLK_PCHCTRL_GEN_GCLK1_Val | GCLK_PCHCTRL_CHEN);
-  hri_mclk_set_AHBMASK_USB_bit(MCLK);
-  hri_mclk_set_APBBMASK_USB_bit(MCLK);
-
-  // USB Pin Init
-  gpio_set_pin_direction(PIN_PA24, GPIO_DIRECTION_OUT);
-  gpio_set_pin_level(PIN_PA24, false);
-  gpio_set_pin_pull_mode(PIN_PA24, GPIO_PULL_OFF);
-  gpio_set_pin_direction(PIN_PA25, GPIO_DIRECTION_OUT);
-  gpio_set_pin_level(PIN_PA25, false);
-  gpio_set_pin_pull_mode(PIN_PA25, GPIO_PULL_OFF);
-
-  gpio_set_pin_function(PIN_PA24, PINMUX_PA24G_USB_DM);
-  gpio_set_pin_function(PIN_PA25, PINMUX_PA25G_USB_DP);
-
-  // Output 500hz PWM on PB23 (TCC0 WO[3]) so we can validate the GCLK1 clock speed
-  hri_mclk_set_APBCMASK_TCC0_bit(MCLK);
-  TCC0->PER.bit.PER = 48000000 / 1000;
-  TCC0->CC[3].bit.CC = 48000000 / 2000;
-  TCC0->CTRLA.bit.ENABLE = true;
-
-  gpio_set_pin_function(PIN_PA19, PINMUX_PA19F_TCC0_WO3);
-  hri_gclk_write_PCHCTRL_reg(GCLK, TCC0_GCLK_ID, GCLK_PCHCTRL_GEN_GCLK1_Val | GCLK_PCHCTRL_CHEN);
-}
 
 safe_mode_t port_init(void) {
     #if defined(SAMD21)
@@ -388,9 +334,17 @@ safe_mode_t port_init(void) {
     _osc32kctrl_init_sources();
     _oscctrl_init_sources();
     _mclk_init();
+    #if _GCLK_INIT_1ST
+     _gclk_init_generators_by_fref(_GCLK_INIT_1ST);
+    #endif
 
     _oscctrl_init_referenced_generators();
 	_gclk_init_generators_by_fref(0x0000001F);
+
+    #if (CONF_PORT_EVCTRL_PORT_0 | CONF_PORT_EVCTRL_PORT_1 | CONF_PORT_EVCTRL_PORT_2 | CONF_PORT_EVCTRL_PORT_3)
+    hri_port_set_EVCTRL_reg(PORT, 0, CONF_PORTA_EVCTRL);
+    hri_port_set_EVCTRL_reg(PORT, 1, CONF_PORTB_EVCTRL);
+    #endif
 
     // Update SystemCoreClock since it is hard coded with asf4 and not correct
     // Init 1ms tick timer (samd SystemCoreClock may not correct)
@@ -406,27 +360,18 @@ safe_mode_t port_init(void) {
     hri_mclk_set_APBBMASK_USB_bit(MCLK);
 
     // USB Pin Init
-    // gpio_set_pin_direction(PIN_PA24, GPIO_DIRECTION_OUT);
-    // gpio_set_pin_level(PIN_PA24, false);
-    // gpio_set_pin_pull_mode(PIN_PA24, GPIO_PULL_OFF);
-    // gpio_set_pin_direction(PIN_PA25, GPIO_DIRECTION_OUT);
-    // gpio_set_pin_level(PIN_PA25, false);
-    // gpio_set_pin_pull_mode(PIN_PA25, GPIO_PULL_OFF);
+     gpio_set_pin_direction(PIN_PA24, GPIO_DIRECTION_OUT);
+     gpio_set_pin_level(PIN_PA24, false);
+     gpio_set_pin_pull_mode(PIN_PA24, GPIO_PULL_OFF);
+     gpio_set_pin_direction(PIN_PA25, GPIO_DIRECTION_OUT);
+     gpio_set_pin_level(PIN_PA25, false);
+     gpio_set_pin_pull_mode(PIN_PA25, GPIO_PULL_OFF);
 
-    // gpio_set_pin_function(PIN_PA24, PINMUX_PA24G_USB_DM);
-    // gpio_set_pin_function(PIN_PA25, PINMUX_PA25G_USB_DP);
-    
-
-    // Output 500hz PWM on PB23 (TCC0 WO[3]) so we can validate the GCLK1 clock speed
-    hri_mclk_set_APBCMASK_TCC0_bit(MCLK);
-    TCC0->PER.bit.PER = 48000000 / 1000;
-    TCC0->CC[3].bit.CC = 48000000 / 2000;
-    TCC0->CTRLA.bit.ENABLE = true;
-
-    gpio_set_pin_function(PIN_PA19, PINMUX_PA19F_TCC0_WO3);
-    hri_gclk_write_PCHCTRL_reg(GCLK, TCC0_GCLK_ID, GCLK_PCHCTRL_GEN_GCLK1_Val | GCLK_PCHCTRL_CHEN);
+     gpio_set_pin_function(PIN_PA24, PINMUX_PA24G_USB_DM);
+     gpio_set_pin_function(PIN_PA25, PINMUX_PA25G_USB_DP);
 
     #endif
+
     #if CALIBRATE_CRYSTALLESS
     uint32_t fine = DEFAULT_DFLL48M_FINE_CALIBRATION;
     // The fine calibration data is stored in an NVM page after the text and data storage but before
@@ -502,7 +447,7 @@ void reset_port(void) {
     analogout_reset();
     #endif
 
-    //reset_gclks();
+    reset_gclks();
 
     #if CIRCUITPY_GAMEPAD
     gamepad_reset();
@@ -521,11 +466,24 @@ void reset_port(void) {
     // Output clocks for debugging.
     // not supported by SAMD51G; uncomment for SAMD51J or update for 51G
     // #ifdef SAM_D5X_E5X
-    // gpio_set_pin_function(PIN_PA10, GPIO_PIN_FUNCTION_M); // GCLK4, D3
-    // gpio_set_pin_function(PIN_PA11, GPIO_PIN_FUNCTION_M); // GCLK5, A4
-    // gpio_set_pin_function(PIN_PB14, GPIO_PIN_FUNCTION_M); // GCLK0, D5
-    // gpio_set_pin_function(PIN_PB15, GPIO_PIN_FUNCTION_M); // GCLK1, D6
+     //gpio_set_pin_function(PIN_PA10, GPIO_PIN_FUNCTION_M); // GCLK4, D3
+     //gpio_set_pin_function(PIN_PA11, GPIO_PIN_FUNCTION_M); // GCLK5, A4
+     //gpio_set_pin_function(PIN_PB14, GPIO_PIN_FUNCTION_M); // GCLK0, D5
+     //gpio_set_pin_function(PIN_PB15, GPIO_PIN_FUNCTION_M); // GCLK1, D6
     // #endif
+    
+    // Output clocks for debugging.
+    // not supported by SAMD21G; uncomment for SAML51J or update for 21G
+    #ifdef SAML21
+    // Output 500hz PWM on PB23 (TCC0 WO[3]) so we can validate the GCLK1 clock speed
+    hri_mclk_set_APBCMASK_TCC0_bit(MCLK);
+    TCC0->PER.bit.PER = 48000000 / 1000;
+    TCC0->CC[3].bit.CC = 48000000 / 2000;
+    TCC0->CTRLA.bit.ENABLE = true;
+
+    gpio_set_pin_function(PIN_PA19, PINMUX_PA19F_TCC0_WO3);
+    hri_gclk_write_PCHCTRL_reg(GCLK, TCC0_GCLK_ID, GCLK_PCHCTRL_GEN_GCLK1_Val | GCLK_PCHCTRL_CHEN);
+    #endif
 
     #if CALIBRATE_CRYSTALLESS
     if (tud_cdc_connected()) {
