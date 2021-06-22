@@ -596,12 +596,12 @@ void RTC_Handler(void) {
         // Our RTC is 32 bits and we're clocking it at 16.384khz which is 16 (2 ** 4) subticks per
         // tick.
         overflowed_ticks += (1L << (32 - 4));
-        #ifdef SAM_D5X_E5X
+    #ifdef SAM_D5X_E5X
     } else if (intflag & RTC_MODE0_INTFLAG_PER2) {
         RTC->MODE0.INTFLAG.reg = RTC_MODE0_INTFLAG_PER2;
         // Do things common to all ports when the tick occurs
         supervisor_tick();
-        #endif
+    #endif
     } else if (intflag & RTC_MODE0_INTFLAG_CMP0) {
         // Clear the interrupt because we may have hit a sleep and _ticks_enabled
         RTC->MODE0.INTFLAG.reg = RTC_MODE0_INTFLAG_CMP0;
