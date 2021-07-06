@@ -123,7 +123,7 @@
 
 #ifndef CONF_USB_MSC_ISERIALNUM
 #define CONF_USB_MSC_ISERIALNUM                                                                                        \
-	(CONF_USB_MSC_ISERIALNUM_EN * (CONF_USB_MSC_IMANUFACT_EN + CONF_USB_MSC_IPRODUCT_EN + CONF_USB_MSC_ISERIALNUM_EN))
+    (CONF_USB_MSC_ISERIALNUM_EN * (CONF_USB_MSC_IMANUFACT_EN + CONF_USB_MSC_IPRODUCT_EN + CONF_USB_MSC_ISERIALNUM_EN))
 #endif
 
 // <s> Unicode string of iSerialNum
@@ -134,8 +134,8 @@
 
 #ifndef CONF_USB_MSC_ISERIALNUM_STR_DESC
 #define CONF_USB_MSC_ISERIALNUM_STR_DESC                                                                               \
-	32, 0x03, '1', 0x00, '2', 0x00, '3', 0x00, '4', 0x00, '5', 0x00, '6', 0x00, '7', 0x00, '8', 0x00, '9', 0x00, 'A',  \
-	    0x00, 'B', 0x00, 'C', 0x00, 'D', 0x00, 'E', 0x00, 'F', 0x00,
+    32, 0x03, '1', 0x00, '2', 0x00, '3', 0x00, '4', 0x00, '5', 0x00, '6', 0x00, '7', 0x00, '8', 0x00, '9', 0x00, 'A',  \
+    0x00, 'B', 0x00, 'C', 0x00, 'D', 0x00, 'E', 0x00, 'F', 0x00,
 #endif
 
 // </e>
@@ -152,8 +152,8 @@
 
 #ifndef CONF_USB_MSC_ICONFIG
 #define CONF_USB_MSC_ICONFIG                                                                                           \
-	(CONF_USB_MSC_ICONFIG_EN                                                                                           \
-	 * (CONF_USB_MSC_IMANUFACT_EN + CONF_USB_MSC_IPRODUCT_EN + CONF_USB_MSC_ISERIALNUM_EN + CONF_USB_MSC_ICONFIG_EN))
+    (CONF_USB_MSC_ICONFIG_EN                                                                                           \
+    * (CONF_USB_MSC_IMANUFACT_EN + CONF_USB_MSC_IPRODUCT_EN + CONF_USB_MSC_ISERIALNUM_EN + CONF_USB_MSC_ICONFIG_EN))
 #endif
 
 // <s> Unicode string of iConfig
@@ -344,7 +344,7 @@
 
 #ifndef CONF_USB_MSC_LUN0_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN0_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN0_CAPACITY * 1024 / CONF_USB_MSC_LUN0_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN0_CAPACITY * 1024 / CONF_USB_MSC_LUN0_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -407,7 +407,7 @@
 
 #ifndef CONF_USB_MSC_LUN1_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN1_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN1_CAPACITY * 1024 / CONF_USB_MSC_LUN1_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN1_CAPACITY * 1024 / CONF_USB_MSC_LUN1_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -469,7 +469,7 @@
 
 #ifndef CONF_USB_MSC_LUN2_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN2_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN2_CAPACITY * 1024 / CONF_USB_MSC_LUN2_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN2_CAPACITY * 1024 / CONF_USB_MSC_LUN2_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -531,7 +531,7 @@
 
 #ifndef CONF_USB_MSC_LUN3_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN3_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN3_CAPACITY * 1024 / CONF_USB_MSC_LUN3_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN3_CAPACITY * 1024 / CONF_USB_MSC_LUN3_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -593,7 +593,7 @@
 
 #ifndef CONF_USB_MSC_LUN4_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN4_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN4_CAPACITY * 1024 / CONF_USB_MSC_LUN4_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN4_CAPACITY * 1024 / CONF_USB_MSC_LUN4_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -655,7 +655,7 @@
 
 #ifndef CONF_USB_MSC_LUN5_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN5_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN5_CAPACITY * 1024 / CONF_USB_MSC_LUN5_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN5_CAPACITY * 1024 / CONF_USB_MSC_LUN5_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -717,7 +717,7 @@
 
 #ifndef CONF_USB_MSC_LUN6_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN6_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN6_CAPACITY * 1024 / CONF_USB_MSC_LUN6_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN6_CAPACITY * 1024 / CONF_USB_MSC_LUN6_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -779,7 +779,7 @@
 
 #ifndef CONF_USB_MSC_LUN7_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN7_LAST_BLOCK_ADDR                                                                              \
-	((uint32_t)CONF_USB_MSC_LUN7_CAPACITY * 1024 / CONF_USB_MSC_LUN7_BLOCK_SIZE - 1)
+    ((uint32_t)CONF_USB_MSC_LUN7_CAPACITY * 1024 / CONF_USB_MSC_LUN7_BLOCK_SIZE - 1)
 #endif
 
 // </e>

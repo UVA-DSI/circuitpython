@@ -258,8 +258,8 @@ safe_mode_t port_init(void) {
     #endif
 
     #if defined(SAML21)
-    //SystemCoreClock = CONF_CPU_FREQUENCY;
-    //SysTick_Config(CONF_CPU_FREQUENCY / 1000);
+    // SystemCoreClock = CONF_CPU_FREQUENCY;
+    // SysTick_Config(CONF_CPU_FREQUENCY / 1000);
     // Set brownout detection.
     // Disable while changing level.
     SUPC->BOD33.bit.ENABLE = 0;
@@ -338,10 +338,10 @@ safe_mode_t port_init(void) {
     if (strcmp((char *)CIRCUITPY_INTERNAL_CONFIG_START_ADDR, "CIRCUITPYTHON1") == 0) {
         fine = ((uint16_t *)CIRCUITPY_INTERNAL_CONFIG_START_ADDR)[8];
     }
-     clock_init(BOARD_HAS_CRYSTAL, fine);
+    clock_init(BOARD_HAS_CRYSTAL, fine);
     #else
     // Use a default fine value
-     clock_init(BOARD_HAS_CRYSTAL, DEFAULT_DFLL48M_FINE_CALIBRATION);
+    clock_init(BOARD_HAS_CRYSTAL, DEFAULT_DFLL48M_FINE_CALIBRATION);
     #endif
 
     rtc_init();
@@ -349,7 +349,7 @@ safe_mode_t port_init(void) {
     init_shared_dma();
 
     // Reset everything into a known state before board_init.
-    //reset_port();
+    // reset_port();
 
     #ifdef SAMD21
     if (PM->RCAUSE.bit.BOD33 == 1 || PM->RCAUSE.bit.BOD12 == 1) {
