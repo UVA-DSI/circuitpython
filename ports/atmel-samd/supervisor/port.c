@@ -258,6 +258,8 @@ safe_mode_t port_init(void) {
     #endif
 
     #if defined(SAML21)
+    //SystemCoreClock = CONF_CPU_FREQUENCY;
+    //SysTick_Config(CONF_CPU_FREQUENCY / 1000);
     // Set brownout detection.
     // Disable while changing level.
     SUPC->BOD33.bit.ENABLE = 0;
@@ -325,16 +327,8 @@ safe_mode_t port_init(void) {
     #endif
 
     #ifdef SAML21
-
-    // Clock init ( follow hpl_init.c )
-    hri_nvmctrl_set_CTRLB_RWS_bf(NVMCTRL, 0);
-
+    hri_nvmctrl_set_CTRLB_RWS_bf(NVMCTRL, 2);
     _set_performance_level(2);
-
-    _osc32kctrl_init_sources();
-    _oscctrl_init_sources();
-    _mclk_init();
-
     #endif
 
     #if CALIBRATE_CRYSTALLESS
@@ -355,7 +349,7 @@ safe_mode_t port_init(void) {
     init_shared_dma();
 
     // Reset everything into a known state before board_init.
-    reset_port();
+    //reset_port();
 
     #ifdef SAMD21
     if (PM->RCAUSE.bit.BOD33 == 1 || PM->RCAUSE.bit.BOD12 == 1) {

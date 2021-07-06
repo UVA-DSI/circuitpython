@@ -45,6 +45,10 @@ void init_usb_hardware(void) {
     hri_mclk_set_APBBMASK_USB_bit(MCLK);
     #endif
 
+    hri_gclk_write_PCHCTRL_reg(GCLK, USB_GCLK_ID, GCLK_PCHCTRL_GEN_GCLK1_Val | GCLK_PCHCTRL_CHEN);
+    hri_mclk_set_AHBMASK_USB_bit(MCLK);
+    hri_mclk_set_APBBMASK_USB_bit(MCLK);
+
     gpio_set_pin_direction(PIN_PA24, GPIO_DIRECTION_OUT);
     gpio_set_pin_level(PIN_PA24, false);
     gpio_set_pin_pull_mode(PIN_PA24, GPIO_PULL_OFF);
