@@ -13,7 +13,6 @@
 // <h> RTC source control
 // <y> RTC Clock Source Selection
 // <GCLK_GENCTRL_SRC_OSCULP32K"> 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
-// <GCLK_GENCTRL_SRC_OSC32K"> 32kHz High Accuracy Internal Oscillator (OSC32K)
 // <GCLK_GENCTRL_SRC_XOSC32K"> 32kHz External Crystal Oscillator (XOSC32K)
 // <i> This defines the clock source for RTC
 // <id> rtc_source_oscillator
@@ -25,7 +24,7 @@
 // <id> rtc_1khz_selection
 #ifndef CONF_RTCCTRL_1KHZ
 
-#define CONF_RTCCTRL_1KHZ 0
+#define CONF_RTCCTRL_1KHZ 1
 
 #endif
 
@@ -73,7 +72,7 @@
 // <i> Indicates whether On Demand Control is enabled or not
 // <id> xosc32k_arch_ondemand
 #ifndef CONF_XOSC32K_ONDEMAND
-#define CONF_XOSC32K_ONDEMAND 1
+#define CONF_XOSC32K_ONDEMAND 0
 #endif
 
 // <q> Run in Standby
@@ -182,7 +181,7 @@
 // <i> Indicates whether configuration for OSCULP32K is enabled or not
 // <id> enable_osculp32k
 #ifndef CONF_OSCULP32K_CONFIG
-#define CONF_OSCULP32K_CONFIG 1
+#define CONF_OSCULP32K_CONFIG 0
 #endif
 
 // <h> 32kHz Ultra Low Power Internal Oscillator Control

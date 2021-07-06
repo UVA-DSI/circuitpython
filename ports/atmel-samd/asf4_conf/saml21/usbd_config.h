@@ -14,33 +14,33 @@
 #define CONF_USBD_HS_SP 0
 #endif
 
-// ---- USB Device Stack Composite Options ----
+// ---- USB Device Stack Mass Storage Options ----
 
 // <e> Enable String Descriptors
-// <id> usb_composite_str_en
-#ifndef CONF_USB_COMPOSITE_STR_EN
-#define CONF_USB_COMPOSITE_STR_EN 0
+// <id> usb_msc_str_en
+#ifndef CONF_USB_MSC_STR_EN
+#define CONF_USB_MSC_STR_EN 1
 #endif
 // <s> Language IDs
 // <i> Language IDs in c format, split by comma (E.g., 0x0409 ...)
-// <id> usb_composite_langid
-#ifndef CONF_USB_COMPOSITE_LANGID
-#define CONF_USB_COMPOSITE_LANGID "0x0409"
+// <id> usb_msc_langid
+#ifndef CONF_USB_MSC_LANGID
+#define CONF_USB_MSC_LANGID "0x0409"
 #endif
 
-#ifndef CONF_USB_COMPOSITE_LANGID_DESC
-#define CONF_USB_COMPOSITE_LANGID_DESC
+#ifndef CONF_USB_MSC_LANGID_DESC
+#define CONF_USB_MSC_LANGID_DESC 4, 0x03, 0x09, 0x04,
 #endif
 // </e>
 
-// <h> Composite Device Descriptor
+// <h> Mass Storage Class (MSC) Device Descriptor
 
 // <o> bcdUSB
 // <0x0200=> USB 2.0 version
 // <0x0210=> USB 2.1 version
-// <id> usb_composite_bcdusb
-#ifndef CONF_USB_COMPOSITE_BCDUSB
-#define CONF_USB_COMPOSITE_BCDUSB 0x200
+// <id> usb_msc_bcdusb
+#ifndef CONF_USB_MSC_BCDUSB
+#define CONF_USB_MSC_BCDUSB 0x200
 #endif
 
 // <o> bMaxPackeSize0
@@ -48,133 +48,122 @@
 // <0x0010=> 16 bytes
 // <0x0020=> 32 bytes
 // <0x0040=> 64 bytes
-// <id> usb_composite_bmaxpksz0
-#ifndef CONF_USB_COMPOSITE_BMAXPKSZ0
-#define CONF_USB_COMPOSITE_BMAXPKSZ0 0x40
+// <id> usb_msc_bmaxpksz0
+#ifndef CONF_USB_MSC_BMAXPKSZ0
+#define CONF_USB_MSC_BMAXPKSZ0 0x40
 #endif
 
 // <o> idVender <0x0000-0xFFFF>
-// <id> usb_composite_idvender
-#ifndef CONF_USB_COMPOSITE_IDVENDER
-#define CONF_USB_COMPOSITE_IDVENDER 0x3eb
+// <id> usb_msc_idvender
+#ifndef CONF_USB_MSC_IDVENDER
+#define CONF_USB_MSC_IDVENDER 0x3eb
 #endif
 
 // <o> idProduct <0x0000-0xFFFF>
-// <id> usb_composite_idproduct
-#ifndef CONF_USB_COMPOSITE_IDPRODUCT
-#define CONF_USB_COMPOSITE_IDPRODUCT 0x2421
+// <id> usb_msc_idproduct
+#ifndef CONF_USB_MSC_IDPRODUCT
+#define CONF_USB_MSC_IDPRODUCT 0x2403
 #endif
 
 // <o> bcdDevice <0x0000-0xFFFF>
-// <id> usb_composite_bcddevice
-#ifndef CONF_USB_COMPOSITE_BCDDEVICE
-#define CONF_USB_COMPOSITE_BCDDEVICE 0x100
+// <id> usb_msc_bcddevice
+#ifndef CONF_USB_MSC_BCDDEVICE
+#define CONF_USB_MSC_BCDDEVICE 0x100
 #endif
 
 // <e> Enable string descriptor of iManufact
-// <id> usb_composite_imanufact_en
-#ifndef CONF_USB_COMPOSITE_IMANUFACT_EN
-#define CONF_USB_COMPOSITE_IMANUFACT_EN 0
+// <id> usb_msc_imanufact_en
+#ifndef CONF_USB_MSC_IMANUFACT_EN
+#define CONF_USB_MSC_IMANUFACT_EN 0
 #endif
 
-#ifndef CONF_USB_COMPOSITE_IMANUFACT
-#define CONF_USB_COMPOSITE_IMANUFACT (CONF_USB_COMPOSITE_IMANUFACT_EN * (CONF_USB_COMPOSITE_IMANUFACT_EN))
+#ifndef CONF_USB_MSC_IMANUFACT
+#define CONF_USB_MSC_IMANUFACT (CONF_USB_MSC_IMANUFACT_EN * (CONF_USB_MSC_IMANUFACT_EN))
 #endif
 
 // <s> Unicode string of iManufact
-// <id> usb_composite_imanufact_str
-#ifndef CONF_USB_COMPOSITE_IMANUFACT_STR
-#define CONF_USB_COMPOSITE_IMANUFACT_STR "Atmel"
+// <id> usb_msc_imanufact_str
+#ifndef CONF_USB_MSC_IMANUFACT_STR
+#define CONF_USB_MSC_IMANUFACT_STR "Atmel"
 #endif
 
-#ifndef CONF_USB_COMPOSITE_IMANUFACT_STR_DESC
-#define CONF_USB_COMPOSITE_IMANUFACT_STR_DESC
+#ifndef CONF_USB_MSC_IMANUFACT_STR_DESC
+#define CONF_USB_MSC_IMANUFACT_STR_DESC
 #endif
 
 // </e>
 
 // <e> Enable string descriptor of iProduct
-// <id> usb_composite_iproduct_en
-#ifndef CONF_USB_COMPOSITE_IPRODUCT_EN
-#define CONF_USB_COMPOSITE_IPRODUCT_EN 0
+// <id> usb_msc_iproduct_en
+#ifndef CONF_USB_MSC_IPRODUCT_EN
+#define CONF_USB_MSC_IPRODUCT_EN 0
 #endif
 
-#ifndef CONF_USB_COMPOSITE_IPRODUCT
-#define CONF_USB_COMPOSITE_IPRODUCT                                                                                    \
-    (CONF_USB_COMPOSITE_IPRODUCT_EN * (CONF_USB_COMPOSITE_IMANUFACT_EN + CONF_USB_COMPOSITE_IPRODUCT_EN))
+#ifndef CONF_USB_MSC_IPRODUCT
+#define CONF_USB_MSC_IPRODUCT (CONF_USB_MSC_IPRODUCT_EN * (CONF_USB_MSC_IMANUFACT_EN + CONF_USB_MSC_IPRODUCT_EN))
 #endif
 
 // <s> Unicode string of iProduct
-// <id> usb_composite_iproduct_str
-#ifndef CONF_USB_COMPOSITE_IPRODUCT_STR
-#define CONF_USB_COMPOSITE_IPRODUCT_STR "Composite Demo"
+// <id> usb_msc_iproduct_str
+#ifndef CONF_USB_MSC_IPRODUCT_STR
+#define CONF_USB_MSC_IPRODUCT_STR "Mass Storage Class (MSC) Demo"
 #endif
 
-#ifndef CONF_USB_COMPOSITE_IPRODUCT_STR_DESC
-#define CONF_USB_COMPOSITE_IPRODUCT_STR_DESC
+#ifndef CONF_USB_MSC_IPRODUCT_STR_DESC
+#define CONF_USB_MSC_IPRODUCT_STR_DESC
 #endif
 
 // </e>
 
 // <e> Enable string descriptor of iSerialNum
-// <id> usb_composite_iserialnum_en
-#ifndef CONF_USB_COMPOSITE_ISERIALNUM_EN
-#define CONF_USB_COMPOSITE_ISERIALNUM_EN 0
+// <id> usb_msc_iserialnum_en
+#ifndef CONF_USB_MSC_ISERIALNUM_EN
+#define CONF_USB_MSC_ISERIALNUM_EN 1
 #endif
 
-#ifndef CONF_USB_COMPOSITE_ISERIALNUM
-#define CONF_USB_COMPOSITE_ISERIALNUM                                                                                  \
-    (CONF_USB_COMPOSITE_ISERIALNUM_EN                                                                                  \
-    * (CONF_USB_COMPOSITE_IMANUFACT_EN + CONF_USB_COMPOSITE_IPRODUCT_EN + CONF_USB_COMPOSITE_ISERIALNUM_EN))
+#ifndef CONF_USB_MSC_ISERIALNUM
+#define CONF_USB_MSC_ISERIALNUM                                                                                        \
+	(CONF_USB_MSC_ISERIALNUM_EN * (CONF_USB_MSC_IMANUFACT_EN + CONF_USB_MSC_IPRODUCT_EN + CONF_USB_MSC_ISERIALNUM_EN))
 #endif
 
 // <s> Unicode string of iSerialNum
-// <id> usb_composite_iserialnum_str
-#ifndef CONF_USB_COMPOSITE_ISERIALNUM_STR
-#define CONF_USB_COMPOSITE_ISERIALNUM_STR "123456789ABCDEF"
+// <id> usb_msc_iserialnum_str
+#ifndef CONF_USB_MSC_ISERIALNUM_STR
+#define CONF_USB_MSC_ISERIALNUM_STR "123456789ABCDEF"
 #endif
 
-#ifndef CONF_USB_COMPOSITE_ISERIALNUM_STR_DESC
-#define CONF_USB_COMPOSITE_ISERIALNUM_STR_DESC
+#ifndef CONF_USB_MSC_ISERIALNUM_STR_DESC
+#define CONF_USB_MSC_ISERIALNUM_STR_DESC                                                                               \
+	32, 0x03, '1', 0x00, '2', 0x00, '3', 0x00, '4', 0x00, '5', 0x00, '6', 0x00, '7', 0x00, '8', 0x00, '9', 0x00, 'A',  \
+	    0x00, 'B', 0x00, 'C', 0x00, 'D', 0x00, 'E', 0x00, 'F', 0x00,
 #endif
 
 // </e>
 
-// <o> bNumConfigurations <0x01-0xFF>
-// <id> usb_composite_bnumconfig
-#ifndef CONF_USB_COMPOSITE_BNUMCONFIG
-#define CONF_USB_COMPOSITE_BNUMCONFIG 0x1
-#endif
-
 // </h>
 
-// <h> Composite Configuration Descriptor
-// <o> bConfigurationValue <0x01-0xFF>
-// <id> usb_composite_bconfigval
-#ifndef CONF_USB_COMPOSITE_BCONFIGVAL
-#define CONF_USB_COMPOSITE_BCONFIGVAL 0x1
-#endif
+// <h> MSC Configuration Descriptor
+
 // <e> Enable string descriptor of iConfig
-// <id> usb_composite_iconfig_en
-#ifndef CONF_USB_COMPOSITE_ICONFIG_EN
-#define CONF_USB_COMPOSITE_ICONFIG_EN 0
+// <id> usb_msc_iconfig_en
+#ifndef CONF_USB_MSC_ICONFIG_EN
+#define CONF_USB_MSC_ICONFIG_EN 0
 #endif
 
-#ifndef CONF_USB_COMPOSITE_ICONFIG
-#define CONF_USB_COMPOSITE_ICONFIG                                                                                     \
-    (CONF_USB_COMPOSITE_ICONFIG_EN                                                                                     \
-    * (CONF_USB_COMPOSITE_IMANUFACT_EN + CONF_USB_COMPOSITE_IPRODUCT_EN + CONF_USB_COMPOSITE_ISERIALNUM_EN            \
-    + CONF_USB_COMPOSITE_ICONFIG_EN))
+#ifndef CONF_USB_MSC_ICONFIG
+#define CONF_USB_MSC_ICONFIG                                                                                           \
+	(CONF_USB_MSC_ICONFIG_EN                                                                                           \
+	 * (CONF_USB_MSC_IMANUFACT_EN + CONF_USB_MSC_IPRODUCT_EN + CONF_USB_MSC_ISERIALNUM_EN + CONF_USB_MSC_ICONFIG_EN))
 #endif
 
 // <s> Unicode string of iConfig
-// <id> usb_composite_iconfig_str
-#ifndef CONF_USB_COMPOSITE_ICONFIG_STR
-#define CONF_USB_COMPOSITE_ICONFIG_STR ""
+// <id> usb_msc_iconfig_str
+#ifndef CONF_USB_MSC_ICONFIG_STR
+#define CONF_USB_MSC_ICONFIG_STR ""
 #endif
 
-#ifndef CONF_USB_COMPOSITE_ICONFIG_STR_DESC
-#define CONF_USB_COMPOSITE_ICONFIG_STR_DESC
+#ifndef CONF_USB_MSC_ICONFIG_STR_DESC
+#define CONF_USB_MSC_ICONFIG_STR_DESC
 #endif
 
 // </e>
@@ -184,25 +173,29 @@
 // <0xA0=> Bus power supply, support for remote wakeup
 // <0xC0=> Self powered, not support for remote wakeup
 // <0xE0=> Self powered, support for remote wakeup
-// <id> usb_composite_bmattri
-#ifndef CONF_USB_COMPOSITE_BMATTRI
-#define CONF_USB_COMPOSITE_BMATTRI 0x80
+// <id> usb_msc_bmattri
+#ifndef CONF_USB_MSC_BMATTRI
+#define CONF_USB_MSC_BMATTRI 0x80
 #endif
 
 // <o> bMaxPower <0x00-0xFF>
-// <id> usb_composite_bmaxpower
-#ifndef CONF_USB_COMPOSITE_BMAXPOWER
-#define CONF_USB_COMPOSITE_BMAXPOWER 0x32
+// <id> usb_msc_bmaxpower
+#ifndef CONF_USB_MSC_BMAXPOWER
+#define CONF_USB_MSC_BMAXPOWER 0x32
 #endif
 // </h>
 
-// <e> CDC ACM Support
-// <id> usb_composite_cdc_acm_support
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_EN
-#define CONF_USB_COMPOSITE_CDC_ACM_EN 0
+// <h> MSC Interface Descriptor
+
+#ifndef CONF_USB_MSC_BIFCNUM
+#define CONF_USB_MSC_BIFCNUM 0x00
 #endif
 
-// <o> CDC ACM Comm Interrupt IN Endpoint Address
+#ifndef CONF_USB_MSC_IIFC
+#define CONF_USB_MSC_IIFC 0x00
+#endif
+
+// <o> BULK IN Endpoint Address
 // <0x81=> EndpointAddress = 0x81
 // <0x82=> EndpointAddress = 0x82
 // <0x83=> EndpointAddress = 0x83
@@ -210,53 +203,24 @@
 // <0x85=> EndpointAddress = 0x85
 // <0x86=> EndpointAddress = 0x86
 // <0x87=> EndpointAddress = 0x87
-// <0x88=> EndpointAddress = 0x88
-// <0x89=> EndpointAddress = 0x89
-
-// <id> usb_composite_cdc_acm_epaddr
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_COMM_INT_EPADDR
-#define CONF_USB_COMPOSITE_CDC_ACM_COMM_INT_EPADDR 0x82
+// <id> usb_msc_bulkin_epaddr
+// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
+#ifndef CONF_USB_MSC_BULKIN_EPADDR
+#define CONF_USB_MSC_BULKIN_EPADDR 0x81
 #endif
 
-// <o> CDC ACM Comm Interrupt IN Endpoint wMaxPacketSize
+// <o> BULK IN Endpoint wMaxPacketSize
 // <0x0008=> 8 bytes
 // <0x0010=> 16 bytes
 // <0x0020=> 32 bytes
 // <0x0040=> 64 bytes
-
-// <id> usb_composite_cdc_acm_comm_int_maxpksz
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_COMM_INT_MAXPKSZ
-#define CONF_USB_COMPOSITE_CDC_ACM_COMM_INT_MAXPKSZ 0x40
+// <id> usb_msc_bulkin_maxpksz
+// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
+#ifndef CONF_USB_MSC_BULKIN_MAXPKSZ
+#define CONF_USB_MSC_BULKIN_MAXPKSZ 0x40
 #endif
 
-// <o> CDC ACM Data BULK IN Endpoint Address
-// <0x81=> EndpointAddress = 0x81
-// <0x82=> EndpointAddress = 0x82
-// <0x83=> EndpointAddress = 0x83
-// <0x84=> EndpointAddress = 0x84
-// <0x85=> EndpointAddress = 0x85
-// <0x86=> EndpointAddress = 0x86
-// <0x87=> EndpointAddress = 0x87
-// <0x88=> EndpointAddress = 0x88
-// <0x89=> EndpointAddress = 0x89
-
-// <id> usb_composite_cdc_acm_data_bulkin_epaddr
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKIN_EPADDR
-#define CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKIN_EPADDR 0x81
-#endif
-
-// <o> CDC ACM Data BULK IN Endpoint wMaxPacketSize
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-
-// <id> usb_composite_cdc_acm_data_builin_maxpksz
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKIN_MAXPKSZ
-#define CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKIN_MAXPKSZ 0x40
-#endif
-
-// <o> CDC ACM Data BULK IN Endpoint wMaxPacketSize for High Speed
+// <o> BULK IN Endpoint wMaxPacketSize for High Speed
 // <0x0008=> 8 bytes
 // <0x0010=> 16 bytes
 // <0x0020=> 32 bytes
@@ -264,13 +228,13 @@
 // <0x0080=> 128 bytes
 // <0x0100=> 256 bytes
 // <0x0200=> 512 bytes
-
-// <id> usb_composite_cdc_acm_data_builin_maxpksz_hs
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKIN_MAXPKSZ_HS
-#define CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKIN_MAXPKSZ_HS 0x200
+// <id> usb_msc_bulkin_maxpksz_hs
+// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
+#ifndef CONF_USB_MSC_BULKIN_MAXPKSZ_HS
+#define CONF_USB_MSC_BULKIN_MAXPKSZ_HS 0x200
 #endif
 
-// <o> CDC ACM Data BULK OUT Endpoint Address
+// <o> BULK OUT Endpoint Address
 // <0x01=> EndpointAddress = 0x01
 // <0x02=> EndpointAddress = 0x02
 // <0x03=> EndpointAddress = 0x03
@@ -278,26 +242,24 @@
 // <0x05=> EndpointAddress = 0x05
 // <0x06=> EndpointAddress = 0x06
 // <0x07=> EndpointAddress = 0x07
-// <0x08=> EndpointAddress = 0x08
-// <0x09=> EndpointAddress = 0x09
-
-// <id> usb_composite_cdc_acm_data_bulkout_epaddr
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKOUT_EPADDR
-#define CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKOUT_EPADDR 0x1
+// <id> usb_msc_bulkout_epaddr
+// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
+#ifndef CONF_USB_MSC_BULKOUT_EPADDR
+#define CONF_USB_MSC_BULKOUT_EPADDR 0x1
 #endif
 
-// <o> CDC ACM Data BULK OUT Endpoint wMaxPacketSize
+// <o> BULK OUT Endpoint wMaxPacketSize
 // <0x0008=> 8 bytes
 // <0x0010=> 16 bytes
 // <0x0020=> 32 bytes
 // <0x0040=> 64 bytes
-
-// <id> usb_composite_cdc_acm_data_buckout_maxpksz
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKOUT_MAXPKSZ
-#define CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKOUT_MAXPKSZ 0x40
+// <id> usb_msc_bulkout_maxpksz
+// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
+#ifndef CONF_USB_MSC_BULKOUT_MAXPKSZ
+#define CONF_USB_MSC_BULKOUT_MAXPKSZ 0x40
 #endif
 
-// <o> CDC ACM Data BULK OUT Endpoint wMaxPacketSize for High Speed
+// <o> BULK OUT Endpoint wMaxPacketSize for High Speed
 // <0x0008=> 8 bytes
 // <0x0010=> 16 bytes
 // <0x0020=> 32 bytes
@@ -305,285 +267,17 @@
 // <0x0080=> 128 bytes
 // <0x0100=> 256 bytes
 // <0x0200=> 512 bytes
-
-// <id> usb_composite_cdc_acm_data_buckout_maxpksz_hs
-#ifndef CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKOUT_MAXPKSZ_HS
-#define CONF_USB_COMPOSITE_CDC_ACM_DATA_BULKOUT_MAXPKSZ_HS 0x200
-#endif
-
-// <q> CDC ACM Echo Demo generation
-// <id> conf_usb_composite_cdc_echo_demo
-// <i> Invoke cdcdf_acm_demo_init(buf[wMaxPacketSize]) to enable the echo demo.
-// <i> Buf is packet buffer for data receive and echo back.
-// <i> The buffer is 4 byte aligned to support DMA.
-#ifndef CONF_USB_COMPOSITE_CDC_ECHO_DEMO
-#define CONF_USB_COMPOSITE_CDC_ECHO_DEMO 0
-#endif
-
-// </e>
-
-// <e> HID Mouse Support
-// <id> usb_composite_hid_mouse_support
-#ifndef CONF_USB_COMPOSITE_HID_MOUSE_EN
-#define CONF_USB_COMPOSITE_HID_MOUSE_EN 0
-#endif
-
-// <o> HID Mouse INTERRUPT IN Endpoint Address
-// <0x81=> EndpointAddress = 0x81
-// <0x82=> EndpointAddress = 0x82
-// <0x83=> EndpointAddress = 0x83
-// <0x84=> EndpointAddress = 0x84
-// <0x85=> EndpointAddress = 0x85
-// <0x86=> EndpointAddress = 0x86
-// <0x87=> EndpointAddress = 0x87
-// <0x88=> EndpointAddress = 0x88
-// <0x89=> EndpointAddress = 0x89
-
-// <id> usb_composite_hid_mouse_intin_epaddr
+// <id> usb_msc_bulkout_maxpksz_hs
 // <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_MOUSE_INTIN_EPADDR
-#define CONF_USB_COMPOSITE_HID_MOUSE_INTIN_EPADDR 0x83
+#ifndef CONF_USB_MSC_BULKOUT_MAXPKSZ_HS
+#define CONF_USB_MSC_BULKOUT_MAXPKSZ_HS 0x200
 #endif
-
-// <o> HID Mouse INTERRUPT IN Endpoint wMaxPacketSize
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-
-// <id> usb_composite_hid_mouse_intin_maxpksz
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_MOUSE_INTIN_MAXPKSZ
-#define CONF_USB_COMPOSITE_HID_MOUSE_INTIN_MAXPKSZ 0x8
-#endif
-
-// <q> HID Mouse Move Demo generation
-// <id> conf_usb_composite_hid_mouse_demo
-// <i> Invoke hiddf_demo_init(button1, button2, button3) to enabled the move demo.
-// <i> Button1 and button3 are the pins used for mouse moving left and right.
-#ifndef CONF_USB_COMPOSITE_HID_MOUSE_DEMO
-#define CONF_USB_COMPOSITE_HID_MOUSE_DEMO 0
-#endif
-
-// </e>
-
-// <e> HID Keyboard Support
-// <id> usb_composite_hid_keyboard_support
-#ifndef CONF_USB_COMPOSITE_HID_KEYBOARD_EN
-#define CONF_USB_COMPOSITE_HID_KEYBOARD_EN 0
-#endif
-
-// <o> HID Keyboard INTERRUPT IN Endpoint Address
-// <0x81=> EndpointAddress = 0x81
-// <0x82=> EndpointAddress = 0x82
-// <0x83=> EndpointAddress = 0x83
-// <0x84=> EndpointAddress = 0x84
-// <0x85=> EndpointAddress = 0x85
-// <0x86=> EndpointAddress = 0x86
-// <0x87=> EndpointAddress = 0x87
-// <0x88=> EndpointAddress = 0x88
-// <0x89=> EndpointAddress = 0x89
-
-// <id> usb_composite_hid_keyboard_intin_epaddr
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_KEYBOARD_INTIN_EPADDR
-#define CONF_USB_COMPOSITE_HID_KEYBOARD_INTIN_EPADDR 0x84
-#endif
-
-// <o> HID Keyboard INTERRUPT IN Endpoint wMaxPacketSize
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-
-// <id> usb_composite_hid_keyboard_intin_maxpksz
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_KEYBOARD_INTIN_MAXPKSZ
-#define CONF_USB_COMPOSITE_HID_KEYBOARD_INTIN_MAXPKSZ 0x8
-#endif
-
-// <o> HID Keyboard INTERRUPT OUT Endpoint Address
-// <0x01=> EndpointAddress = 0x01
-// <0x02=> EndpointAddress = 0x02
-// <0x03=> EndpointAddress = 0x03
-// <0x04=> EndpointAddress = 0x04
-// <0x05=> EndpointAddress = 0x05
-// <0x06=> EndpointAddress = 0x06
-// <0x07=> EndpointAddress = 0x07
-// <0x08=> EndpointAddress = 0x08
-// <0x09=> EndpointAddress = 0x09
-
-// <id> usb_composite_hid_keyboard_intout_epaddr
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_KEYBOARD_INTOUT_EPADDR
-#define CONF_USB_COMPOSITE_HID_KEYBOARD_INTOUT_EPADDR 0x2
-#endif
-
-// <o> HID Keyboard INTERRUPT OUT Endpoint wMaxPacketSize
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-
-// <id> usb_composite_hid_keyboard_intout_maxpksz
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_KEYBOARD_INTOUT_MAXPKSZ
-#define CONF_USB_COMPOSITE_HID_KEYBOARD_INTOUT_MAXPKSZ 0x8
-#endif
-
-// <q> HID Keyboard Caps Lock Demo generation
-// <id> conf_usb_composite_hid_keyboard_demo
-// <i> Invoke hiddf_demo_init(button1, button2, button3) to enabled the move demo.
-// <i> Buffon2 is the pin used for keyboard CAPS LOCK simulation.
-#ifndef CONF_USB_COMPOSITE_HID_KEYBOARD_DEMO
-#define CONF_USB_COMPOSITE_HID_KEYBOARD_DEMO 0
-#endif
-
-// </e>
-
-// <e> HID Generic Support
-// <id> usb_composite_hid_generic_support
-#ifndef CONF_USB_COMPOSITE_HID_GENERIC_EN
-#define CONF_USB_COMPOSITE_HID_GENERIC_EN 0
-#endif
-
-#ifndef CONF_USB_COMPOSITE_HID_GENERIC_REPORT_LEN
-#define CONF_USB_COMPOSITE_HID_GENERIC_REPORT_LEN 53
-#endif
-
-#ifndef CONF_USB_COMPOSITE_HID_GENERIC_REPORT
-#define CONF_USB_COMPOSITE_HID_GENERIC_REPORT                                                                          \
-    0x06, 0xFF, 0xFF, 0x09, 0x01, 0xA1, 0x01, 0x09, 0x02, 0x09, 0x03, 0x15, 0x00, 0x26, 0xFF, 0x00, 0x75, 0x08, 0x95,  \
-    0x40, 0x81, 0x02, 0x09, 0x04, 0x09, 0x05, 0x15, 0x00, 0x26, 0xFF, 0x00, 0x75, 0x08, 0x95, 0x40, 0x91, 0x02,    \
-    0x09, 0x06, 0x09, 0x07, 0x15, 0x00, 0x26, 0xFF, 0x00, 0x75, 0x08, 0x95, 0x04, 0xB1, 0x02, 0xC0
-#endif
-
-// <o> HID Generic INTERRUPT IN Endpoint Address
-// <0x81=> EndpointAddress = 0x81
-// <0x82=> EndpointAddress = 0x82
-// <0x83=> EndpointAddress = 0x83
-// <0x84=> EndpointAddress = 0x84
-// <0x85=> EndpointAddress = 0x85
-// <0x86=> EndpointAddress = 0x86
-// <0x87=> EndpointAddress = 0x87
-// <0x88=> EndpointAddress = 0x88
-// <0x89=> EndpointAddress = 0x89
-
-// <id> usb_composite_hid_generic_intin_epaddr
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_GENERIC_INTIN_EPADDR
-#define CONF_USB_COMPOSITE_HID_GENERIC_INTIN_EPADDR 0x85
-#endif
-
-// <o> HID Generic INTERRUPT IN Endpoint wMaxPacketSize
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-
-// <id> usb_composite_hid_generic_intin_maxpksz
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_GENERIC_INTIN_MAXPKSZ
-#define CONF_USB_COMPOSITE_HID_GENERIC_INTIN_MAXPKSZ 0x40
-#endif
-
-// <o> HID Generic INTERRUPT OUT Endpoint Address
-// <0x01=> EndpointAddress = 0x01
-// <0x02=> EndpointAddress = 0x02
-// <0x03=> EndpointAddress = 0x03
-// <0x04=> EndpointAddress = 0x04
-// <0x05=> EndpointAddress = 0x05
-// <0x06=> EndpointAddress = 0x06
-// <0x07=> EndpointAddress = 0x07
-// <0x08=> EndpointAddress = 0x08
-// <0x09=> EndpointAddress = 0x09
-
-// <id> usb_composite_hid_generic_intout_epaddr
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_GENERIC_INTOUT_EPADDR
-#define CONF_USB_COMPOSITE_HID_GENERIC_INTOUT_EPADDR 0x3
-#endif
-
-// <o> HID Generic INTERRUPT OUT Endpoint wMaxPacketSize
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-// <id> usb_composite_hid_generic_intout_maxpksz
-// <i> Please make sure that the setting here is coincide with the endpoint setting in USB device driver.
-#ifndef CONF_USB_COMPOSITE_HID_GENERIC_INTOUT_MAXPKSZ
-#define CONF_USB_COMPOSITE_HID_GENERIC_INTOUT_MAXPKSZ 0x40
-#endif
-
-// </e>
-
-// <e> MSC Support
-// <id> usb_composite_msc_support
-#ifndef CONF_USB_COMPOSITE_MSC_EN
-#define CONF_USB_COMPOSITE_MSC_EN 0
-#endif
-
-// <o> MSC BULK Endpoints wMaxPacketSize
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-
-// <id> usb_composite_msc_bulk_maxpksz
-#ifndef CONF_USB_COMPOSITE_MSC_BULK_MAXPKSZ
-#define CONF_USB_COMPOSITE_MSC_BULK_MAXPKSZ 0x40
-#endif
-
-// <o> MSC BULK Endpoints wMaxPacketSize for High Speed
-// <0x0008=> 8 bytes
-// <0x0010=> 16 bytes
-// <0x0020=> 32 bytes
-// <0x0040=> 64 bytes
-// <0x0080=> 128 bytes
-// <0x0100=> 256 bytes
-// <0x0200=> 512 bytes
-
-// <id> usb_composite_msc_bulk_maxpksz_hs
-#ifndef CONF_USB_COMPOSITE_MSC_BULK_MAXPKSZ_HS
-#define CONF_USB_COMPOSITE_MSC_BULK_MAXPKSZ_HS 0x200
-#endif
-
-// <o> MSC BULK IN Endpoint Address
-// <0x81=> EndpointAddress = 0x81
-// <0x82=> EndpointAddress = 0x82
-// <0x83=> EndpointAddress = 0x83
-// <0x84=> EndpointAddress = 0x84
-// <0x85=> EndpointAddress = 0x85
-// <0x86=> EndpointAddress = 0x86
-// <0x87=> EndpointAddress = 0x87
-// <0x88=> EndpointAddress = 0x88
-// <0x89=> EndpointAddress = 0x89
-
-// <id> usb_composite_msc_bulkin_epaddr
-#ifndef CONF_USB_COMPOSITE_MSC_BULKIN_EPADDR
-#define CONF_USB_COMPOSITE_MSC_BULKIN_EPADDR 0x86
-#endif
-
-// <o> MSC BULK OUT Endpoint Address
-// <0x01=> EndpointAddress = 0x01
-// <0x02=> EndpointAddress = 0x02
-// <0x03=> EndpointAddress = 0x03
-// <0x04=> EndpointAddress = 0x04
-// <0x05=> EndpointAddress = 0x05
-// <0x06=> EndpointAddress = 0x06
-// <0x07=> EndpointAddress = 0x07
-// <0x08=> EndpointAddress = 0x08
-// <0x09=> EndpointAddress = 0x09
-
-// <id> usb_composite_msc_bulkout_epaddr
-#ifndef CONF_USB_COMPOSITE_MSC_BULKOUT_EPADDR
-#define CONF_USB_COMPOSITE_MSC_BULKOUT_EPADDR 0x4
-#endif
+// </h>
 
 // <e> Enable Demo code for Disk LUN handling
-// <id> usb_composite_msc_demo_en
-#ifndef CONF_USB_COMPOSITE_MSC_LUN_DEMO
-#define CONF_USB_COMPOSITE_MSC_LUN_DEMO 1
+// <id> conf_usb_msc_demo_en
+#ifndef CONF_USB_MSC_LUN_DEMO
+#define CONF_USB_MSC_LUN_DEMO 1
 #endif
 
 // <o> Disk access cache/buffer of sectors if non-RAM disk (e.g., SD/MMC) enabled <1-64>
@@ -650,7 +344,7 @@
 
 #ifndef CONF_USB_MSC_LUN0_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN0_LAST_BLOCK_ADDR                                                                              \
-    ((uint32_t)CONF_USB_MSC_LUN0_CAPACITY * 1024 / CONF_USB_MSC_LUN0_BLOCK_SIZE - 1)
+	((uint32_t)CONF_USB_MSC_LUN0_CAPACITY * 1024 / CONF_USB_MSC_LUN0_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -713,7 +407,7 @@
 
 #ifndef CONF_USB_MSC_LUN1_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN1_LAST_BLOCK_ADDR                                                                              \
-    ((uint32_t)CONF_USB_MSC_LUN1_CAPACITY * 1024 / CONF_USB_MSC_LUN1_BLOCK_SIZE - 1)
+	((uint32_t)CONF_USB_MSC_LUN1_CAPACITY * 1024 / CONF_USB_MSC_LUN1_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -775,7 +469,7 @@
 
 #ifndef CONF_USB_MSC_LUN2_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN2_LAST_BLOCK_ADDR                                                                              \
-    ((uint32_t)CONF_USB_MSC_LUN2_CAPACITY * 1024 / CONF_USB_MSC_LUN2_BLOCK_SIZE - 1)
+	((uint32_t)CONF_USB_MSC_LUN2_CAPACITY * 1024 / CONF_USB_MSC_LUN2_BLOCK_SIZE - 1)
 #endif
 
 // </e>
@@ -837,12 +531,259 @@
 
 #ifndef CONF_USB_MSC_LUN3_LAST_BLOCK_ADDR
 #define CONF_USB_MSC_LUN3_LAST_BLOCK_ADDR                                                                              \
-    ((uint32_t)CONF_USB_MSC_LUN3_CAPACITY * 1024 / CONF_USB_MSC_LUN3_BLOCK_SIZE - 1)
+	((uint32_t)CONF_USB_MSC_LUN3_CAPACITY * 1024 / CONF_USB_MSC_LUN3_BLOCK_SIZE - 1)
 #endif
 
 // </e>
 
+// <e> Enable Demo for LUN 4
+// <id> conf_usb_msc_lun4_enable
+#ifndef CONF_USB_MSC_LUN4_ENABLE
+#define CONF_USB_MSC_LUN4_ENABLE 0
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_TYPE
+#define CONF_USB_MSC_LUN4_TYPE 0x00
+#endif
+
+// <q> The disk is removable
+// <id> conf_usb_msc_lun4_rmb
+#ifndef CONF_USB_MSC_LUN4_RMB
+#define CONF_USB_MSC_LUN4_RMB 0x1
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_ISO
+#define CONF_USB_MSC_LUN4_ISO 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_ECMA
+#define CONF_USB_MSC_LUN4_ECMA 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_ANSI
+#define CONF_USB_MSC_LUN4_ANSI 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_REPO
+#define CONF_USB_MSC_LUN4_REPO 0x01
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_FACTORY
+#define CONF_USB_MSC_LUN4_FACTORY 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_PRODUCT
+#define CONF_USB_MSC_LUN4_PRODUCT 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_PRODUCT_VERSION
+#define CONF_USB_MSC_LUN4_PRODUCT_VERSION 0x00, 0x00, 0x00, 0x00
+#endif
+
+// <o> Disk Size (in KB) <0x1-0xFFFFFFFF>
+// <id> conf_usb_msc_lun4_capacity
+
+#ifndef CONF_USB_MSC_LUN4_CAPACITY
+#define CONF_USB_MSC_LUN4_CAPACITY 22
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_BLOCK_SIZE
+#define CONF_USB_MSC_LUN4_BLOCK_SIZE 512
+#endif
+
+#ifndef CONF_USB_MSC_LUN4_LAST_BLOCK_ADDR
+#define CONF_USB_MSC_LUN4_LAST_BLOCK_ADDR                                                                              \
+	((uint32_t)CONF_USB_MSC_LUN4_CAPACITY * 1024 / CONF_USB_MSC_LUN4_BLOCK_SIZE - 1)
+#endif
+
 // </e>
+
+// <e> Enable Demo for LUN 5
+// <id> conf_usb_msc_lun5_enable
+#ifndef CONF_USB_MSC_LUN5_ENABLE
+#define CONF_USB_MSC_LUN5_ENABLE 0
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_TYPE
+#define CONF_USB_MSC_LUN5_TYPE 0x00
+#endif
+
+// <q> The disk is removable
+// <id> conf_usb_msc_lun5_rmb
+#ifndef CONF_USB_MSC_LUN5_RMB
+#define CONF_USB_MSC_LUN5_RMB 0x1
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_ISO
+#define CONF_USB_MSC_LUN5_ISO 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_ECMA
+#define CONF_USB_MSC_LUN5_ECMA 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_ANSI
+#define CONF_USB_MSC_LUN5_ANSI 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_REPO
+#define CONF_USB_MSC_LUN5_REPO 0x01
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_FACTORY
+#define CONF_USB_MSC_LUN5_FACTORY 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_PRODUCT
+#define CONF_USB_MSC_LUN5_PRODUCT 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_PRODUCT_VERSION
+#define CONF_USB_MSC_LUN5_PRODUCT_VERSION 0x00, 0x00, 0x00, 0x00
+#endif
+
+// <o> Disk Size (in KB) <0x1-0xFFFFFFFF>
+// <id> conf_usb_msc_lun5_capacity
+
+#ifndef CONF_USB_MSC_LUN5_CAPACITY
+#define CONF_USB_MSC_LUN5_CAPACITY 22
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_BLOCK_SIZE
+#define CONF_USB_MSC_LUN5_BLOCK_SIZE 512
+#endif
+
+#ifndef CONF_USB_MSC_LUN5_LAST_BLOCK_ADDR
+#define CONF_USB_MSC_LUN5_LAST_BLOCK_ADDR                                                                              \
+	((uint32_t)CONF_USB_MSC_LUN5_CAPACITY * 1024 / CONF_USB_MSC_LUN5_BLOCK_SIZE - 1)
+#endif
+
+// </e>
+
+// <e> Enable Demo for LUN 6
+// <id> conf_usb_msc_lun6_enable
+#ifndef CONF_USB_MSC_LUN6_ENABLE
+#define CONF_USB_MSC_LUN6_ENABLE 0
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_TYPE
+#define CONF_USB_MSC_LUN6_TYPE 0x00
+#endif
+
+// <q> The disk is removable
+// <id> conf_usb_msc_lun6_rmb
+#ifndef CONF_USB_MSC_LUN6_RMB
+#define CONF_USB_MSC_LUN6_RMB 0x1
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_ISO
+#define CONF_USB_MSC_LUN6_ISO 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_ECMA
+#define CONF_USB_MSC_LUN6_ECMA 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_ANSI
+#define CONF_USB_MSC_LUN6_ANSI 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_REPO
+#define CONF_USB_MSC_LUN6_REPO 0x01
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_FACTORY
+#define CONF_USB_MSC_LUN6_FACTORY 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_PRODUCT
+#define CONF_USB_MSC_LUN6_PRODUCT 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_PRODUCT_VERSION
+#define CONF_USB_MSC_LUN6_PRODUCT_VERSION 0x00, 0x00, 0x00, 0x00
+#endif
+
+// <o> Disk Size (in KB) <0x1-0xFFFFFFFF>
+// <id> conf_usb_msc_lun6_capacity
+
+#ifndef CONF_USB_MSC_LUN6_CAPACITY
+#define CONF_USB_MSC_LUN6_CAPACITY 22
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_BLOCK_SIZE
+#define CONF_USB_MSC_LUN6_BLOCK_SIZE 512
+#endif
+
+#ifndef CONF_USB_MSC_LUN6_LAST_BLOCK_ADDR
+#define CONF_USB_MSC_LUN6_LAST_BLOCK_ADDR                                                                              \
+	((uint32_t)CONF_USB_MSC_LUN6_CAPACITY * 1024 / CONF_USB_MSC_LUN6_BLOCK_SIZE - 1)
+#endif
+
+// </e>
+
+// <e> Enable Demo for LUN 7
+// <id> conf_usb_msc_lun7_enable
+#ifndef CONF_USB_MSC_LUN7_ENABLE
+#define CONF_USB_MSC_LUN7_ENABLE 0
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_TYPE
+#define CONF_USB_MSC_LUN7_TYPE 0x00
+#endif
+
+// <q> The disk is removable
+// <id> conf_usb_msc_lun7_rmb
+#ifndef CONF_USB_MSC_LUN7_RMB
+#define CONF_USB_MSC_LUN7_RMB 0x1
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_ISO
+#define CONF_USB_MSC_LUN7_ISO 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_ECMA
+#define CONF_USB_MSC_LUN7_ECMA 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_ANSI
+#define CONF_USB_MSC_LUN7_ANSI 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_REPO
+#define CONF_USB_MSC_LUN7_REPO 0x01
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_FACTORY
+#define CONF_USB_MSC_LUN7_FACTORY 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_PRODUCT
+#define CONF_USB_MSC_LUN7_PRODUCT 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_PRODUCT_VERSION
+#define CONF_USB_MSC_LUN7_PRODUCT_VERSION 0x00, 0x00, 0x00, 0x00
+#endif
+
+// <o> Disk Size (in KB) <0x1-0xFFFFFFFF>
+// <id> conf_usb_msc_lun7_capacity
+
+#ifndef CONF_USB_MSC_LUN7_CAPACITY
+#define CONF_USB_MSC_LUN7_CAPACITY 22
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_BLOCK_SIZE
+#define CONF_USB_MSC_LUN7_BLOCK_SIZE 512
+#endif
+
+#ifndef CONF_USB_MSC_LUN7_LAST_BLOCK_ADDR
+#define CONF_USB_MSC_LUN7_LAST_BLOCK_ADDR                                                                              \
+	((uint32_t)CONF_USB_MSC_LUN7_CAPACITY * 1024 / CONF_USB_MSC_LUN7_BLOCK_SIZE - 1)
+#endif
+
+// </e>
+
 // </e>
 
 // <<< end of configuration section >>>

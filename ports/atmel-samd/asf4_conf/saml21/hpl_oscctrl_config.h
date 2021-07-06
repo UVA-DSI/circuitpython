@@ -70,7 +70,7 @@
 // <i> Indicates whether On Demand Control is enabled or not
 // <id> xosc_arch_ondemand
 #ifndef CONF_XOSC_ONDEMAND
-#define CONF_XOSC_ONDEMAND 1
+#define CONF_XOSC_ONDEMAND 0
 #endif
 
 // <q> Run in Standby
@@ -80,14 +80,35 @@
 #define CONF_XOSC_RUNSTDBY 0
 #endif
 
+// <q> Clock Switch Back
+// <i> Indicates whether Clock Switch Back is enabled or not
+// <id> xosc_arch_swben
+#ifndef CONF_XOSC_SWBEN
+#define CONF_XOSC_SWBEN 0
+#endif
+
+// <q> Clock Failure Detector
+// <i> Indicates whether Clock Failure Detector is enabled or not
+// <id> xosc_arch_cfden
+#ifndef CONF_XOSC_CFDEN
+#define CONF_XOSC_CFDEN 0
+#endif
+
+// <q> Clock Failure Detector Event Out
+// <i> Indicates whether Clock Failure Detector Event Out is enabled or not
+// <id> xosc_arch_cfdeo
+#ifndef CONF_XOSC_CFDEO
+#define CONF_XOSC_CFDEO 0
+#endif
+
 // <q> Crystal connected to XIN/XOUT Enable
 // <i> Indicates whether the connections between the I/O pads and the external clock or crystal oscillator is enabled or not
 // <id> xosc_arch_xtalen
 #ifndef CONF_XOSC_XTALEN
 #define CONF_XOSC_XTALEN 0
 #endif
-// </h>
-// </e>
+//</h>
+//</e>
 
 // <e> 16MHz Internal Oscillator Configuration
 // <i> Indicates whether configuration for OSC8M is enabled or not
@@ -183,8 +204,8 @@
 #ifndef CONF_OSC16M_TCAL
 #define CONF_OSC16M_16M_TCAL 0
 #endif
-// </h>
-// </e>
+//</h>
+//</e>
 
 // <e> DFLL Configuration
 // <i> Indicates whether configuration for DFLL is enabled or not
@@ -324,11 +345,11 @@
 #define CONF_DFLL_FINE (0x200)
 #endif
 
-// </e>
+//</e>
 
-// </h>
+//</h>
 
-// </e>
+//</e>
 
 // <e> DPLL Configuration
 // <i> Indicates whether configuration for DPLL is enabled or not
@@ -454,8 +475,8 @@
 #ifndef CONF_DPLL_PRESC
 #define CONF_DPLL_PRESC OSCCTRL_DPLLPRESC_PRESC_DIV1_Val
 #endif
-// </h>
-// </e>
+//</h>
+//</e>
 
 // <<< end of configuration section >>>
 
