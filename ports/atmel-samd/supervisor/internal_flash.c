@@ -39,6 +39,9 @@
 #ifdef SAMD21
 #include "hpl/pm/hpl_pm_base.h"
 #endif
+#ifdef SAML21
+#include "hri/hri_mclk_l21.h"
+#endif
 #ifdef SAME51
 #include "hri/hri_mclk_e51.h"
 #endif
@@ -71,6 +74,9 @@ void supervisor_flash_init(void) {
     #endif
     #ifdef SAMD21
     _pm_enable_bus_clock(PM_BUS_APBB, NVMCTRL);
+    #endif
+    #ifdef SAML21
+    hri_mclk_set_AHBMASK_NVMCTRL_bit(MCLK);
     #endif
     flash_init(&supervisor_flash_desc, NVMCTRL);
 }

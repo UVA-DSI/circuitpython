@@ -61,6 +61,33 @@
 
 #endif // SAMD21
 
+#ifdef SAML21
+
+// HSRAM_SIZE is defined in the ASF4 include files for each SAML21 chip.
+#define RAM_SIZE                                    HSRAM_SIZE
+#define BOOTLOADER_SIZE                             (8 * 1024)
+#define CIRCUITPY_MCU_FAMILY                        saml21
+#define MICROPY_PY_SYS_PLATFORM                     "Atmel SAML21"
+#define SPI_FLASH_MAX_BAUDRATE 8000000
+#define MICROPY_PY_BUILTINS_COMPLEX                 (0)
+#define MICROPY_PY_BUILTINS_NOTIMPLEMENTED          (0)
+#define MICROPY_PY_FUNCTION_ATTRS                   (0)
+#define MICROPY_PY_REVERSE_SPECIAL_METHODS          (0)
+#define MICROPY_PY_COLLECTIONS_ORDEREDDICT          (0)
+#define MICROPY_PY_UERRNO_LIST \
+    X(EPERM) \
+    X(ENOENT) \
+    X(EIO) \
+    X(EAGAIN) \
+    X(ENOMEM) \
+    X(EACCES) \
+    X(EEXIST) \
+    X(ENODEV) \
+    X(EISDIR) \
+    X(EINVAL) \
+
+#endif // SAML21
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef SAM_D5X_E5X
@@ -120,7 +147,36 @@
 // Smallest unit of flash that can be erased.
 #define FLASH_ERASE_SIZE NVMCTRL_ROW_SIZE
 
-#endif // SAMD21
+#endif // SAML21
+
+#ifdef SAML21
+
+#if INTERNAL_FLASH_FILESYSTEM
+#define CIRCUITPY_INTERNAL_FLASH_FILESYSTEM_SIZE (64 * 1024)
+#else
+#define CIRCUITPY_INTERNAL_FLASH_FILESYSTEM_SIZE (0)
+#endif
+
+#ifndef CIRCUITPY_INTERNAL_NVM_SIZE
+#define CIRCUITPY_INTERNAL_NVM_SIZE (256)
+#endif
+
+#ifndef CIRCUITPY_DEFAULT_STACK_SIZE
+#define CIRCUITPY_DEFAULT_STACK_SIZE                3584
+#endif
+
+#ifndef SAML21_BOD33_LEVEL
+// Set brownout detection to ~2.7V. Default from factory is 1.7V,
+// which is too low for proper operation of external SPI flash chips
+// (they are 2.7-3.6V).
+#define SAML21_BOD33_LEVEL (39)
+// 2.77V with hysteresis off. Table 37.20 in datasheet.
+#endif
+
+// Smallest unit of flash that can be erased.
+#define FLASH_ERASE_SIZE NVMCTRL_ROW_SIZE
+
+#endif // SAML21
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -104,7 +104,15 @@ uint16_t common_hal_analogio_analogin_get_value(analogio_analogin_obj_t *self) {
     adc_sync_set_channel_gain(&adc, self->channel, ADC_INPUTCTRL_GAIN_DIV2_Val);
     #endif
 
+    #ifdef SAMD21
     adc_sync_set_resolution(&adc, ADC_CTRLB_RESSEL_12BIT_Val);
+    #endif
+    #ifdef SAML21
+    adc_sync_set_resolution(&adc, ADC_CTRLC_RESSEL_12BIT_Val);
+    #endif
+    #ifdef SAM_D5X_E5X
+    adc_sync_set_resolution(&adc, ADC_CTRLB_RESSEL_12BIT_Val);
+    #endif
 
     adc_sync_enable_channel(&adc, self->channel);
 

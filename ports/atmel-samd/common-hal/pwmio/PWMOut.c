@@ -56,6 +56,9 @@ uint8_t tcc_refcount[TCC_INST_NUM];
 #ifdef SAMD21
 uint8_t tcc_channels[3];   // Set by pwmout_reset() to {0xf0, 0xfc, 0xfc} initially.
 #endif
+#ifdef SAML21
+uint8_t tcc_channels[3];   // Set by pwmout_reset() to {0xf0, 0xfc, 0xfc} initially.
+#endif
 #ifdef SAM_D5X_E5X
 uint8_t tcc_channels[5];   // Set by pwmout_reset() to {0xc0, 0xf0, 0xf8, 0xfc, 0xfc} initially.
 #endif
@@ -260,6 +263,12 @@ pwmout_result_t common_hal_pwmio_pwmout_construct(pwmio_pwmout_obj_t *self,
                 TC_CTRLA_WAVEGEN_MPWM;
             tc->COUNT16.CC[0].reg = top;
             #endif
+            #ifdef SAML21
+            tc->COUNT16.CTRLA.reg = TC_CTRLA_MODE_COUNT16 |
+                TC_CTRLA_PRESCALER(divisor) |
+                TC_WAVE_WAVEGEN_MPWM;
+            tc->COUNT16.CC[0].reg = top;
+            #endif
             #ifdef SAM_D5X_E5X
 
             tc->COUNT16.CTRLA.bit.SWRST = 1;
@@ -345,6 +354,9 @@ extern void common_hal_pwmio_pwmout_set_duty_cycle(pwmio_pwmout_obj_t *self, uin
         #ifdef SAMD21
         tc_insts[t->index]->COUNT16.CC[t->wave_output].reg = adjusted_duty;
         #endif
+        #ifdef SAML21
+        tc_insts[t->index]->COUNT16.CC[t->wave_output].reg = adjusted_duty;
+        #endif
         #ifdef SAM_D5X_E5X
         Tc *tc = tc_insts[t->index];
         while (tc->COUNT16.SYNCBUSY.bit.CC1 != 0) {
@@ -367,6 +379,9 @@ extern void common_hal_pwmio_pwmout_set_duty_cycle(pwmio_pwmout_obj_t *self, uin
         tcc->CTRLBSET.bit.LUPD = 1;
         #ifdef SAMD21
         tcc->CCB[channel].reg = adjusted_duty;
+        #endif
+        #ifdef SAML21
+        tcc->CCBUF[channel].reg = adjusted_duty;
         #endif
         #ifdef SAM_D5X_E5X
         tcc->CCBUF[channel].reg = adjusted_duty;
@@ -395,6 +410,15 @@ uint16_t common_hal_pwmio_pwmout_get_duty_cycle(pwmio_pwmout_obj_t *self) {
         // to the CC value.
         if ((tcc->STATUS.vec.CCBV & (1 << channel)) != 0) {
             cv = tcc->CCB[channel].reg;
+        } else {
+            cv = tcc->CC[channel].reg;
+        }
+        #endif
+        #ifdef SAML21
+        // If CCBV (CCB valid) is set, the CCB value hasn't yet been copied
+        // to the CC value.
+        if ((tcc->STATUS.vec.CCBUFV & (1 << channel)) != 0) {
+            cv = tcc->CCBUF[channel].reg;
         } else {
             cv = tcc->CC[channel].reg;
         }

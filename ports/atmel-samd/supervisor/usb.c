@@ -39,11 +39,15 @@ void init_usb_hardware(void) {
     _gclk_enable_channel(USB_GCLK_ID, GCLK_CLKCTRL_GEN_GCLK0_Val);
     #endif
 
-    #ifdef SAM_D5X_E5X
+    #if defined(SAM_D5X_E5X) || defined(SAML21)
     hri_gclk_write_PCHCTRL_reg(GCLK, USB_GCLK_ID, GCLK_PCHCTRL_GEN_GCLK1_Val | GCLK_PCHCTRL_CHEN);
     hri_mclk_set_AHBMASK_USB_bit(MCLK);
     hri_mclk_set_APBBMASK_USB_bit(MCLK);
     #endif
+
+    hri_gclk_write_PCHCTRL_reg(GCLK, USB_GCLK_ID, GCLK_PCHCTRL_GEN_GCLK1_Val | GCLK_PCHCTRL_CHEN);
+    hri_mclk_set_AHBMASK_USB_bit(MCLK);
+    hri_mclk_set_APBBMASK_USB_bit(MCLK);
 
     gpio_set_pin_direction(PIN_PA24, GPIO_DIRECTION_OUT);
     gpio_set_pin_level(PIN_PA24, false);
@@ -51,7 +55,7 @@ void init_usb_hardware(void) {
     gpio_set_pin_direction(PIN_PA25, GPIO_DIRECTION_OUT);
     gpio_set_pin_level(PIN_PA25, false);
     gpio_set_pin_pull_mode(PIN_PA25, GPIO_PULL_OFF);
-    #ifdef SAMD21
+    #if defined(SAMD21) || defined(SAML21)
     gpio_set_pin_function(PIN_PA24, PINMUX_PA24G_USB_DM);
     gpio_set_pin_function(PIN_PA25, PINMUX_PA25G_USB_DP);
     #endif
@@ -61,7 +65,7 @@ void init_usb_hardware(void) {
     #endif
 }
 
-#ifdef SAMD21
+#if defined(SAMD21) || defined(SAML21)
 void USB_Handler(void) {
     usb_irq_handler();
 }

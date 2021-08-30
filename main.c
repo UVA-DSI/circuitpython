@@ -562,6 +562,12 @@ STATIC void __attribute__ ((noinline)) run_boot_py(safe_mode_t safe_mode) {
 #endif
 }
 
+void delay(unsigned long milis){
+	for(unsigned long i=0;i<milis;i++){
+        __asm("NOP");
+    }
+}
+
 STATIC int run_repl(void) {
     int exit_code = PYEXEC_FORCED_EXIT;
     stack_resize();
@@ -590,13 +596,32 @@ int __attribute__((used)) main(void) {
     safe_mode_t safe_mode = port_init();
 
     // Turn on LEDs
-    init_status_leds();
-    rgb_led_status_init();
+    //init_status_leds();
+    //rgb_led_status_init();
+
+    //port regs = 0x40002800
+    int *pt;
+    //PAC
+    //pt = (int *)0x44000000;
+    //*pt =0x00FF000AU;
+    //Port stuff
+	pt = (int *)0x40002800;
+    *pt =1<<23;
+    pt = (int *)0x40002810;
+    //pt =1<23;
+    for(int i=0;i<5;i++){
+    //while(1){
+        *pt=1<<23;
+        delay(10);
+        *pt=0x00000000;
+        delay(10);
+    }
 
     // Wait briefly to give a reset window where we'll enter safe mode after the reset.
     if (safe_mode == NO_SAFE_MODE) {
         safe_mode = wait_for_safe_mode_reset();
     }
+
 
     stack_init();
 
@@ -606,13 +631,15 @@ int __attribute__((used)) main(void) {
     filesystem_init(safe_mode == NO_SAFE_MODE, false);
 
     // displays init after filesystem, since they could share the flash SPI
-    board_init();
+    //board_init();
 
     // Start the debug serial
-    serial_early_init();
+    //serial_early_init();
 
     // Reset everything and prep MicroPython to run boot.py.
+    #if 1
     reset_port();
+    #endif
     // Port-independent devices, like CIRCUITPY_BLEIO_HCI.
     reset_devices();
     reset_board();
@@ -629,7 +656,6 @@ int __attribute__((used)) main(void) {
     // writable over USB. Set it here so that boot.py can change it.
     filesystem_set_internal_concurrent_write_protection(true);
     filesystem_set_internal_writable_by_usb(true);
-
     run_boot_py(safe_mode);
 
     // Start USB after giving boot.py a chance to tweak behavior.

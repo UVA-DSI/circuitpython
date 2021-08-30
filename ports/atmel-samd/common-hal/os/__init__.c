@@ -42,6 +42,10 @@ STATIC const qstr os_uname_info_fields[] = {
 STATIC const MP_DEFINE_STR_OBJ(os_uname_info_sysname_obj, "samd21");
 STATIC const MP_DEFINE_STR_OBJ(os_uname_info_nodename_obj, "samd21");
 #endif
+#ifdef SAML21
+STATIC const MP_DEFINE_STR_OBJ(os_uname_info_sysname_obj, "saml21");
+STATIC const MP_DEFINE_STR_OBJ(os_uname_info_nodename_obj, "saml21");
+#endif
 #ifdef SAM_D5X_E5X
 STATIC const MP_DEFINE_STR_OBJ(os_uname_info_sysname_obj, "samd51");
 STATIC const MP_DEFINE_STR_OBJ(os_uname_info_nodename_obj, "samd51");

@@ -53,6 +53,9 @@ bool speaker_enable_in_use;
 #ifdef SAMD21
 #define SWD_MUX GPIO_PIN_FUNCTION_G
 #endif
+#ifdef SAML21
+#define SWD_MUX GPIO_PIN_FUNCTION_G
+#endif
 
 STATIC uint32_t never_reset_pins[PORT_COUNT];
 
@@ -86,6 +89,10 @@ void reset_all_pins(void) {
     gpio_set_pin_function(PIN_PA30, MUX_PA30H_CM4_SWCLK);
     #endif
     #ifdef SAMD21
+    gpio_set_pin_function(PIN_PA30, GPIO_PIN_FUNCTION_G);
+    gpio_set_pin_function(PIN_PA31, GPIO_PIN_FUNCTION_G);
+    #endif
+    #ifdef SAML21
     gpio_set_pin_function(PIN_PA30, GPIO_PIN_FUNCTION_G);
     gpio_set_pin_function(PIN_PA31, GPIO_PIN_FUNCTION_G);
     #endif
@@ -146,6 +153,9 @@ void reset_pin_number(uint8_t pin_number) {
         ) {
         #endif
         #ifdef SAMD21
+        || pin_number == PIN_PA31) {
+        #endif
+        #ifdef SAML21
         || pin_number == PIN_PA31) {
         #endif
         gpio_set_pin_function(pin_number, SWD_MUX);
@@ -212,6 +222,9 @@ bool pin_number_is_free(uint8_t pin_number) {
             ) {
             #endif
             #ifdef SAMD21
+            || pin_number == PIN_PA31) {
+            #endif
+            #ifdef SAML21
             || pin_number == PIN_PA31) {
             #endif) {
             return state->bit.PMUXEN == 1 && ((pmux->reg >> (4 * pin_index % 2)) & 0xf) == SWD_MUX;
